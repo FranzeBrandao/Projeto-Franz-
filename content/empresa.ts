@@ -85,7 +85,11 @@ export const empresa: Empresa = {
     tiktok: "",
   },
 
-  email: "farmaciabemestar.sale@gmail.com",
+  // Gmail temporário. Para a verificação de negócio da Meta (API do
+  // WhatsApp), o ideal é trocar por um e-mail no domínio do site
+  // (ex: contato@farmaciabemestarsobral.com) assim que o domínio for
+  // comprado e o e-mail profissional criado na Hostinger.
+  email: "farmaciabemestarsobral@gmail.com",
 
   convenios: ["Grendene", "Faculdade Uninta"],
 
