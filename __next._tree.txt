@@ -1,6 +1,6 @@
 :HL["/Projeto-Franz-/_next/static/chunks/0-7ekq8jcfshj.css","style"]
 :HL["/Projeto-Franz-/_next/static/media/47df9ba1c7236d3b-s.p.137759vg1sbmi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/Projeto-Franz-/_next/static/media/ca31d6821328a4e9-s.p.2svk7cnw5x6df.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/Projeto-Franz-/images/equipe-loja.webp","image"]
+:HL["/Projeto-Franz-/images/fachada-hero.webp","image"]
 :HL["/Projeto-Franz-/logo-oficial.webp","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"jQ73CZXdNJxCyQn4c06BE"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"FxR3zgMeQjRYb87nGN_eL"}
