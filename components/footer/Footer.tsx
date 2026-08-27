@@ -6,11 +6,11 @@ export function Footer() {
     <footer className="border-t border-border bg-foreground text-background">
       <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          {/* Reconstrução provisória da logo — ver public/logo.svg.
-              <img> em vez de next/image: o logo é SVG (o next/image não
-              otimiza SVG) e o site é exportado como estático. */}
+          {/* Logo oficial, enviada pelo cliente — ver public/logo-oficial.webp.
+              <img> em vez de next/image: o site é exportado como estático
+              (images.unoptimized). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt={empresa.nome} className="h-10 w-auto" />
+          <img src="/logo-oficial.webp" alt={empresa.nome} className="h-10 w-auto" />
           <p className="mt-3 text-sm font-semibold text-background">{empresa.nome}</p>
           <p className="text-xs text-background/60">
             {empresa.razaoSocial} — CNPJ {empresa.cnpj}

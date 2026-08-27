@@ -29,11 +29,11 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-18 items-center justify-between gap-4">
         <a href="#inicio" className="flex items-center">
-          {/* Reconstrução provisória da logo — ver public/logo.svg.
-              <img> em vez de next/image: o logo é SVG (o next/image não
-              otimiza SVG) e o site é exportado como estático. */}
+          {/* Logo oficial, enviada pelo cliente — ver public/logo-oficial.webp.
+              <img> em vez de next/image: o site é exportado como estático
+              (images.unoptimized). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt={empresa.nome} className="h-11 w-auto" />
+          <img src="/logo-oficial.webp" alt={empresa.nome} className="h-11 w-auto" />
         </a>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegação principal">
