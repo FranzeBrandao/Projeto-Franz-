@@ -85,7 +85,7 @@ export const empresa: Empresa = {
     tiktok: "",
   },
 
-  email: "", // [A CONFIRMAR]
+  email: "farmaciabemestar.sale@gmail.com",
 
   convenios: ["Grendene", "Faculdade Uninta"],
 
