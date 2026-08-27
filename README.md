@@ -94,7 +94,7 @@ Aguardando material do cliente (as seções ficam ocultas até lá):
 |---|---|
 | Texto "quem somos", missão e valores | `content/institucional.ts` → `sobre` |
 | Ano de fundação e marcos da história | `content/institucional.ts` → `historia` |
-| Fotos reais da farmácia e da equipe | `content/institucional.ts` → `galeria` / `heroImagem` + `public/images/` |
+| Fotos reais da farmácia e da equipe | `content/institucional.ts` → `galeria` / `heroImagens` + `public/images/` |
 | Arquivo original da logo | `public/logo.svg` (hoje é uma reconstrução aproximada) |
 | E-mail de contato | `content/empresa.ts` → `email` |
 | Domínio definitivo | `content/site.ts` → `siteUrl` |

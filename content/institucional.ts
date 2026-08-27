@@ -91,11 +91,26 @@ export const galeria: Array<{ src: string; alt: string }> = [
 ];
 
 /**
- * Foto de destaque do topo da página (fachada da loja, por exemplo).
- * Enquanto for `null`, o topo mostra um cartão com horário e endereço
- * no lugar — nunca uma imagem genérica fingindo ser a loja.
+ * Fotos de destaque do topo da página: a fachada da loja e a
+ * farmacêutica proprietária. Enquanto a lista estiver vazia, o topo
+ * mostra um cartão com horário e endereço no lugar — nunca uma imagem
+ * genérica fingindo ser a loja.
+ *
+ * A primeira foto é a principal (aparece maior); a segunda entra como
+ * destaque secundário sobreposto.
  */
-export const heroImagem: { src: string; alt: string } | null = {
-  src: "/images/fachada-hero.webp",
-  alt: "Fachada da Farmácia Bem Estar",
-};
+export const heroImagens: Array<{
+  src: string;
+  alt: string;
+  legenda?: { titulo: string; papel: string };
+}> = [
+  {
+    src: "/images/fachada-frente.webp",
+    alt: "Fachada da Farmácia Bem Estar, na Av. Sen. Fernandes Távora, em Sobral - CE",
+  },
+  {
+    src: "/images/kamila-proprietaria.webp",
+    alt: "Kamila Soares Balreira, farmacêutica responsável e proprietária da Farmácia Bem Estar",
+    legenda: { titulo: "Kamila Balreira", papel: "Farmacêutica responsável e proprietária" },
+  },
+];
