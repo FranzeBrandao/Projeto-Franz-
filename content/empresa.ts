@@ -54,12 +54,9 @@ export const empresa: Empresa = {
     e164: "",
   },
 
-  // [A CONFIRMAR] — só temos o status pontual do Google ("Abre às 07:00"),
-  // falta a grade completa (segunda a sexta, sábado, domingo).
   horarioFuncionamento: [
-    { dias: "Segunda a Sexta", horario: "[A CONFIRMAR]" },
-    { dias: "Sábado", horario: "[A CONFIRMAR]" },
-    { dias: "Domingo", horario: "[A CONFIRMAR]" },
+    { dias: "Segunda a Sábado", horario: "07h às 22h" },
+    { dias: "Domingo e feriado", horario: "08h às 22h" },
   ],
 
   // [A CONFIRMAR] — nenhuma URL de rede social foi fornecida ainda.

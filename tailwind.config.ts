@@ -5,13 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Derivadas da logo real da Farmácia Bem Estar (cruz branca sobre azul,
+        // wordmark "Bem Estar" em vermelho) — substitui a paleta provisória
+        // inspirada na Pague Menos.
         primary: {
-          DEFAULT: "#C8102E",
-          hover: "#9E0C24",
+          DEFAULT: "#D71920",
+          hover: "#AD1319",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#0F766E",
+          DEFAULT: "#153FC7",
+          hover: "#102FA0",
+          foreground: "#FFFFFF",
+        },
+        // Cor própria do WhatsApp — usada só no botão flutuante, para manter
+        // o reconhecimento imediato do ícone independente da marca do site.
+        whatsapp: {
+          DEFAULT: "#25D366",
           foreground: "#FFFFFF",
         },
         background: "#FBFAF8",

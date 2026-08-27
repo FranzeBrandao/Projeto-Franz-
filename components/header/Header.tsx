@@ -24,7 +24,7 @@ export function Header() {
           {/* Logo real será inserida quando fornecida pelo cliente */}
           <span
             aria-hidden="true"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-heading text-sm font-bold text-primary-foreground"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary font-heading text-sm font-bold text-secondary-foreground"
           >
             FB
           </span>

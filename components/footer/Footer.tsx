@@ -9,7 +9,7 @@ export function Footer() {
           <div className="flex items-center gap-2 font-heading text-lg font-semibold">
             <span
               aria-hidden="true"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground"
             >
               FB
             </span>
