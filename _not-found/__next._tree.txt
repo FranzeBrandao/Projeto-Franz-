@@ -1,2 +1,2 @@
-:HL["/Projeto-Franz-/_next/static/chunks/0-7ekq8jcfshj.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"FxR3zgMeQjRYb87nGN_eL"}
+:HL["/Projeto-Franz-/_next/static/chunks/3r7j4i9i9im5g.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"WD4uJEkO5wBMhew1XnG9V"}
