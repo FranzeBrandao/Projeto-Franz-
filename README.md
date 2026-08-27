@@ -52,11 +52,21 @@ No hPanel da Hostinger:
 
 Também é possível enviar por FTP, apontando para o mesmo `public_html`.
 
+> **Enviando pelo .zip:** dá para compactar o conteúdo de `out/` e enviar um
+> arquivo só, usando o "Extrair" do gerenciador. Cuidado: compacte o conteúdo
+> de dentro de `out/`, não a pasta, e confirme depois que o `.htaccess` foi
+> extraído — alguns extratores ignoram arquivos ocultos.
+
 ### 4. Conferir
 
 - Acesse o domínio e verifique se a página abre com HTTPS.
 - Teste `seudominio.com.br/robots.txt` e `/sitemap.xml`.
 - Teste as páginas `/politica-privacidade/` e `/termos-de-uso/`.
+- Ative o SSL grátis no hPanel (**Segurança → SSL**) se o certificado ainda
+  não tiver sido emitido. O `.htaccess` força HTTPS, então sem certificado o
+  navegador acusa site inseguro.
+- Confira a prévia do link colando o endereço numa conversa do WhatsApp: deve
+  aparecer o cartão com a fachada (`og-image.jpg`).
 
 ### Atualizações futuras
 
