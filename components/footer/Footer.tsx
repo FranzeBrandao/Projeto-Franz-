@@ -6,15 +6,8 @@ export function Footer() {
     <footer className="border-t border-border bg-foreground text-background">
       <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 font-heading text-lg font-semibold">
-            <span
-              aria-hidden="true"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground"
-            >
-              FB
-            </span>
-            {empresa.nome}
-          </div>
+          {/* Reconstrução provisória da logo — ver public/logo.svg */}
+          <img src="/logo.svg" alt={empresa.nome} className="h-10 w-auto" />
           <p className="mt-3 text-sm text-background/70">{empresa.endereco.completo}</p>
         </div>
 

@@ -20,15 +20,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-18 items-center justify-between gap-4">
-        <a href="#inicio" className="flex items-center gap-2 font-heading text-lg font-semibold">
-          {/* Logo real será inserida quando fornecida pelo cliente */}
-          <span
-            aria-hidden="true"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary font-heading text-sm font-bold text-secondary-foreground"
-          >
-            FB
-          </span>
-          <span>{empresa.nome}</span>
+        <a href="#inicio" className="flex items-center">
+          {/* Reconstrução provisória da logo — ver public/logo.svg */}
+          <img src="/logo.svg" alt={empresa.nome} className="h-11 w-auto" />
         </a>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegação principal">
