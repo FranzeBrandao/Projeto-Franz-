@@ -57,6 +57,10 @@ export const historia: {
  */
 export const galeria: Array<{ src: string; alt: string }> = [
   {
+    src: "/images/equipe-loja.webp",
+    alt: "Equipe da Farmácia Bem Estar dentro da loja",
+  },
+  {
     src: "/images/fachada-equipe.webp",
     alt: "Equipe da Farmácia Bem Estar em frente à fachada da loja",
   },
@@ -92,6 +96,6 @@ export const galeria: Array<{ src: string; alt: string }> = [
  * no lugar — nunca uma imagem genérica fingindo ser a loja.
  */
 export const heroImagem: { src: string; alt: string } | null = {
-  src: "/images/equipe-loja.webp",
-  alt: "Equipe da Farmácia Bem Estar atendendo dentro da loja",
+  src: "/images/fachada-hero.webp",
+  alt: "Fachada da Farmácia Bem Estar",
 };
