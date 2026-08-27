@@ -3,16 +3,24 @@
 import { useState } from "react";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import { empresa } from "@/content/empresa";
+import { galeria, historia, sobre } from "@/content/institucional";
 
+// O menu só oferece as seções que realmente existem na página, para nunca
+// levar o visitante a uma âncora vazia.
 const NAV_LINKS = [
-  { href: "#inicio", label: "Início" },
-  { href: "#sobre", label: "Sobre Nós" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#produtos", label: "Produtos" },
-  { href: "#historia", label: "Nossa História" },
-  { href: "#localizacao", label: "Localização" },
-  { href: "#contato", label: "Contato" },
-];
+  { href: "#inicio", label: "Início", visivel: true },
+  { href: "#sobre", label: "Sobre Nós", visivel: Boolean(sobre.texto) },
+  { href: "#servicos", label: "Serviços", visivel: true },
+  { href: "#produtos", label: "Produtos", visivel: true },
+  {
+    href: "#historia",
+    label: "Nossa História",
+    visivel: Boolean(historia.texto) || historia.marcos.length > 0,
+  },
+  { href: "#galeria", label: "Fotos", visivel: galeria.length > 0 },
+  { href: "#localizacao", label: "Localização", visivel: true },
+  { href: "#contato", label: "Contato", visivel: true },
+].filter((link) => link.visivel);
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +29,10 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-18 items-center justify-between gap-4">
         <a href="#inicio" className="flex items-center">
-          {/* Reconstrução provisória da logo — ver public/logo.svg */}
+          {/* Reconstrução provisória da logo — ver public/logo.svg.
+              <img> em vez de next/image: o logo é SVG (o next/image não
+              otimiza SVG) e o site é exportado como estático. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt={empresa.nome} className="h-11 w-auto" />
         </a>
 

@@ -6,7 +6,10 @@ export function Footer() {
     <footer className="border-t border-border bg-foreground text-background">
       <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          {/* Reconstrução provisória da logo — ver public/logo.svg */}
+          {/* Reconstrução provisória da logo — ver public/logo.svg.
+              <img> em vez de next/image: o logo é SVG (o next/image não
+              otimiza SVG) e o site é exportado como estático. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt={empresa.nome} className="h-10 w-auto" />
           <p className="mt-3 text-sm font-semibold text-background">{empresa.nome}</p>
           <p className="text-xs text-background/60">
@@ -20,9 +23,9 @@ export function Footer() {
             Contato
           </h3>
           <ul className="mt-3 space-y-2 text-sm text-background/80">
-            <li>{empresa.telefone.exibicao}</li>
-            <li>{empresa.whatsapp.exibicao}</li>
-            <li>{empresa.email || "[ E-MAIL A CONFIRMAR ]"}</li>
+            <li>Telefone: {empresa.telefone.exibicao}</li>
+            <li>WhatsApp: {empresa.whatsapp.exibicao}</li>
+            {empresa.email && <li>{empresa.email}</li>}
           </ul>
         </div>
 

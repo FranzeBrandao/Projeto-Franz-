@@ -1,4 +1,8 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/content/site";
+
+// Necessário para o export estático (output: "export").
+export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -6,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://www.farmaciabemestar.com.br/sitemap.xml",
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

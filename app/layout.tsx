@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lexend, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { empresa } from "@/content/empresa";
+import { siteUrl } from "@/content/site";
 import { WhatsappFloat } from "@/components/whatsapp-float/WhatsappFloat";
 
 const lexend = Lexend({
@@ -17,7 +18,7 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.farmaciabemestar.com.br"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${empresa.nome} | Farmácia em Sobral - CE`,
     template: `%s | ${empresa.nome}`,

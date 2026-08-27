@@ -1,5 +1,6 @@
-import { MapPin, MessageCircle } from "lucide-react";
+import { Clock, MapPin, MessageCircle } from "lucide-react";
 import { empresa } from "@/content/empresa";
+import { heroImagem } from "@/content/institucional";
 
 export function Hero() {
   return (
@@ -35,17 +36,36 @@ export function Hero() {
           </div>
         </div>
 
-        <div
-          className="flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-border bg-muted text-center"
-          role="img"
-          aria-label="Imagem demonstrativa — foto real da fachada da farmácia será inserida quando fornecida"
-        >
-          <span className="px-6 text-sm font-medium text-muted-foreground">
-            [ IMAGEM DEMONSTRATIVA ]
-            <br />
-            Foto real da fachada/loja a ser inserida
-          </span>
-        </div>
+        {heroImagem ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={heroImagem.src}
+            alt={heroImagem.alt}
+            className="aspect-[4/3] w-full rounded-xl border border-border object-cover"
+          />
+        ) : (
+          <div className="rounded-xl border border-border bg-card p-8">
+            <h2 className="font-heading text-lg font-semibold text-foreground">
+              Estamos abertos para você
+            </h2>
+
+            <div className="mt-6 flex items-start gap-3">
+              <Clock className="mt-1 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+              <ul className="text-foreground/80">
+                {empresa.horarioFuncionamento.map((item) => (
+                  <li key={item.dias}>
+                    <span className="font-medium">{item.dias}</span>: {item.horario}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-4 flex items-start gap-3 border-t border-border pt-4">
+              <MapPin className="mt-1 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+              <p className="text-foreground/80">{empresa.endereco.completo}</p>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

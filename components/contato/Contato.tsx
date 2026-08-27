@@ -36,20 +36,17 @@ export function Contato() {
             <span className="text-sm text-foreground/60">{empresa.telefone.exibicao}</span>
           </a>
 
-          <a
-            href={
-              empresa.email
-                ? `mailto:${empresa.email}`
-                : "#contato"
-            }
-            className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary"
-          >
-            <Mail className="h-7 w-7 text-secondary" aria-hidden="true" />
-            <span className="font-semibold text-foreground">Enviar e-mail</span>
-            <span className="text-sm text-foreground/60">
-              {empresa.email || "[ E-MAIL A CONFIRMAR ]"}
-            </span>
-          </a>
+          {/* O cartão de e-mail só aparece quando houver endereço confirmado. */}
+          {empresa.email && (
+            <a
+              href={`mailto:${empresa.email}`}
+              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary"
+            >
+              <Mail className="h-7 w-7 text-secondary" aria-hidden="true" />
+              <span className="font-semibold text-foreground">Enviar e-mail</span>
+              <span className="text-sm text-foreground/60">{empresa.email}</span>
+            </a>
+          )}
 
           <a
             href="#localizacao"
