@@ -1,6 +1,7 @@
 import { Clock, MapPin, MessageCircle } from "lucide-react";
 import { empresa } from "@/content/empresa";
 import { heroImagens } from "@/content/institucional";
+import { asset } from "@/lib/asset";
 
 const [imagemPrincipal, imagemSecundaria] = heroImagens;
 
@@ -57,7 +58,7 @@ export function Hero() {
           <div className="relative mx-auto w-full max-w-md lg:ml-auto lg:mr-0 lg:max-w-[520px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imagemPrincipal.src}
+              src={asset(imagemPrincipal.src)}
               alt={imagemPrincipal.alt}
               className="aspect-[4/5] w-full rounded-2xl border border-border object-cover object-top shadow-xl"
             />
@@ -66,7 +67,7 @@ export function Hero() {
               <figure className="absolute bottom-5 left-0 w-32 overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-border sm:w-40 lg:-left-10 lg:w-44">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={imagemSecundaria.src}
+                  src={asset(imagemSecundaria.src)}
                   alt={imagemSecundaria.alt}
                   className="aspect-[3/4] w-full object-cover object-[50%_28%]"
                 />

@@ -95,6 +95,19 @@ Aguardando material do cliente (as seções ficam ocultas até lá):
 | Texto "quem somos", missão e valores | `content/institucional.ts` → `sobre` |
 | Ano de fundação e marcos da história | `content/institucional.ts` → `historia` |
 | Fotos reais da farmácia e da equipe | `content/institucional.ts` → `galeria` / `heroImagens` + `public/images/` |
+
+### Link de prévia (GitHub Pages)
+
+Na hospedagem definitiva o site fica na raiz do domínio e nada precisa ser
+ajustado. No link de prévia ele fica numa subpasta, e aí o build precisa
+saber disso — o `basePath` do Next.js não reescreve `<img src="/...">`:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/Projeto-Franz- npm run build
+```
+
+(junto com `basePath`/`assetPrefix` em `next.config.mjs`, que só valem para
+a prévia). Sem essa variável as imagens quebram na prévia.
 | Arquivo original da logo | `public/logo.svg` (hoje é uma reconstrução aproximada) |
 | E-mail de contato | `content/empresa.ts` → `email` |
 | Domínio definitivo | `content/site.ts` → `siteUrl` |

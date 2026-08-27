@@ -1,4 +1,5 @@
 import { galeria } from "@/content/institucional";
+import { asset } from "@/lib/asset";
 
 export function Galeria() {
   // Sem fotos reais da farmácia, a seção não é publicada — nunca exibimos
@@ -17,7 +18,7 @@ export function Galeria() {
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               key={foto.src}
-              src={foto.src}
+              src={asset(foto.src)}
               alt={foto.alt}
               loading="lazy"
               className="aspect-square w-full rounded-xl border border-border object-cover"

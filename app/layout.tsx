@@ -3,6 +3,7 @@ import { Lexend, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { empresa } from "@/content/empresa";
 import { siteUrl } from "@/content/site";
+import { asset } from "@/lib/asset";
 import { WhatsappFloat } from "@/components/whatsapp-float/WhatsappFloat";
 
 const lexend = Lexend({
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/favicon.png",
+    icon: asset("/favicon.png"),
   },
 };
 

@@ -1,5 +1,6 @@
 import { Facebook, Instagram } from "lucide-react";
 import { empresa } from "@/content/empresa";
+import { asset } from "@/lib/asset";
 
 export function Footer() {
   return (
@@ -10,7 +11,7 @@ export function Footer() {
               <img> em vez de next/image: o site é exportado como estático
               (images.unoptimized). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-oficial.webp" alt={empresa.nome} className="h-10 w-auto" />
+          <img src={asset("/logo-oficial.webp")} alt={empresa.nome} className="h-10 w-auto" />
           <p className="mt-3 text-sm font-semibold text-background">{empresa.nome}</p>
           <p className="text-xs text-background/60">
             {empresa.razaoSocial} — CNPJ {empresa.cnpj}

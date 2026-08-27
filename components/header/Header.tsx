@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import { empresa } from "@/content/empresa";
+import { asset } from "@/lib/asset";
 import { galeria, historia, sobre } from "@/content/institucional";
 
 // O menu só oferece as seções que realmente existem na página, para nunca
@@ -33,7 +34,7 @@ export function Header() {
               <img> em vez de next/image: o site é exportado como estático
               (images.unoptimized). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-oficial.webp" alt={empresa.nome} className="h-11 w-auto" />
+          <img src={asset("/logo-oficial.webp")} alt={empresa.nome} className="h-11 w-auto" />
         </a>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegação principal">
