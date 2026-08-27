@@ -1,4 +1,4 @@
-import { Ear, Gauge, Syringe, Truck } from "lucide-react";
+import { Ear, Gauge, ShoppingBag, Syringe, Truck } from "lucide-react";
 import { empresa } from "@/content/empresa";
 
 // Serviços confirmados pelo cliente — nunca listar algo não confirmado.
@@ -28,6 +28,24 @@ export function Servicos() {
               <span className="text-sm font-semibold text-foreground">{nome}</span>
             </div>
           ))}
+
+          {empresa.ifood.disponivel &&
+            (empresa.ifood.url ? (
+              <a
+                href={empresa.ifood.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary"
+              >
+                <ShoppingBag className="h-8 w-8 text-primary" aria-hidden="true" />
+                <span className="text-sm font-semibold text-foreground">Peça pelo iFood</span>
+              </a>
+            ) : (
+              <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center">
+                <ShoppingBag className="h-8 w-8 text-primary" aria-hidden="true" />
+                <span className="text-sm font-semibold text-foreground">Também no iFood</span>
+              </div>
+            ))}
         </div>
 
         {empresa.convenios.length > 0 && (

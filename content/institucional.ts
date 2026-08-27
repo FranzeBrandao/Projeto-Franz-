@@ -47,8 +47,7 @@ export const historia: {
   marcos: Array<{ ano: string; texto: string }>;
 } = {
   texto: "",
-  // Ex.: [{ ano: "2019", texto: "Inauguração da primeira loja" }]
-  marcos: [],
+  marcos: [{ ano: "2019", texto: "Inauguração da Farmácia Bem Estar, em 11 de fevereiro." }],
 };
 
 /**
