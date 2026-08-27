@@ -75,10 +75,7 @@ export const empresa: Empresa = {
 
   redesSociais: {
     instagram: "https://www.instagram.com/farmaciabemestar_sobral/",
-    // [A CONFIRMAR] — o link enviado (facebook.com/?locale=pt_BR) é a home
-    // genérica do Facebook, não a página da farmácia. Precisa da URL real
-    // da página (ex: facebook.com/farmaciabemestarsobral).
-    facebook: "",
+    facebook: "https://www.facebook.com/farmaciabemestarsobral",
     tiktok: "",
   },
 
