@@ -7,6 +7,12 @@
 
 interface Empresa {
   nome: string;
+  razaoSocial: string;
+  cnpj: string;
+  farmaceuticaResponsavel: {
+    nome: string;
+    crf: string;
+  };
   endereco: {
     linha: string;
     cidade: string;
@@ -33,6 +39,13 @@ interface Empresa {
 
 export const empresa: Empresa = {
   nome: "Farmácia Bem Estar",
+  razaoSocial: "Farmácia Bem Estar LTDA",
+  cnpj: "30.080.921/0001-72",
+
+  farmaceuticaResponsavel: {
+    nome: "Kamila Soares Balreira",
+    crf: "CRF 3105",
+  },
 
   endereco: {
     linha: "Av. Sen. Fernandes Távora, 1359 - Gerardo Cristino",

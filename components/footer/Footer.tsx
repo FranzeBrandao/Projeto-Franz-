@@ -72,8 +72,9 @@ export function Footer() {
 
       <div className="border-t border-background/10 py-5">
         <p className="container-page text-center text-xs text-background/60">
-          © {new Date().getFullYear()} {empresa.nome}. Todos os direitos reservados.
-          CNPJ [A CONFIRMAR].
+          © {new Date().getFullYear()} {empresa.razaoSocial}. Todos os direitos
+          reservados. CNPJ {empresa.cnpj}. Farmacêutica responsável:{" "}
+          {empresa.farmaceuticaResponsavel.nome} ({empresa.farmaceuticaResponsavel.crf}).
         </p>
       </div>
     </footer>
