@@ -73,9 +73,11 @@ export const empresa: Empresa = {
     { dias: "Domingo e feriado", horario: "08h às 22h" },
   ],
 
-  // [A CONFIRMAR] — nenhuma URL de rede social foi fornecida ainda.
   redesSociais: {
-    instagram: "",
+    instagram: "https://www.instagram.com/farmaciabemestar_sobral/",
+    // [A CONFIRMAR] — o link enviado (facebook.com/?locale=pt_BR) é a home
+    // genérica do Facebook, não a página da farmácia. Precisa da URL real
+    // da página (ex: facebook.com/farmaciabemestarsobral).
     facebook: "",
     tiktok: "",
   },
