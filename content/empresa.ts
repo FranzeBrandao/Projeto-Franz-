@@ -89,11 +89,8 @@ export const empresa: Empresa = {
 
   convenios: ["Grendene", "Faculdade Uninta"],
 
-  // [A CONFIRMAR] — cliente informou que também está no iFood, mas ainda
-  // não enviou o link da loja. Sem URL, o site menciona o iFood sem
-  // transformar em link clicável.
   ifood: {
     disponivel: true,
-    url: "",
+    url: "https://www.ifood.com.br/delivery/link-cardapio/sitemercado/339ef7e7-a47b-4677-8585-afc0b2bd2b56",
   },
 };
