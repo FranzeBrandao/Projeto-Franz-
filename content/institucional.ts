@@ -52,8 +52,8 @@ export const historia: {
 
 /**
  * Fotos reais da farmácia (seção "Nossa farmácia em fotos"), enviadas
- * pelo cliente (fotos antigas, da inauguração). `src` aponta para um
- * arquivo dentro de `public/images/`.
+ * pelo cliente (fotos antigas da inauguração + fotos atuais). `src`
+ * aponta para um arquivo dentro de `public/images/`.
  */
 export const galeria: Array<{ src: string; alt: string }> = [
   {
@@ -67,6 +67,18 @@ export const galeria: Array<{ src: string; alt: string }> = [
   {
     src: "/images/atendimento-cliente.webp",
     alt: "Atendimento na Farmácia Bem Estar",
+  },
+  {
+    src: "/images/perfuracao-orelha.webp",
+    alt: "Serviço de perfuração de orelha na Farmácia Bem Estar",
+  },
+  {
+    src: "/images/equipe-copa.webp",
+    alt: "Equipe da Farmácia Bem Estar em clima de Copa do Mundo",
+  },
+  {
+    src: "/images/equipe-comemoracao.webp",
+    alt: "Farmacêutica Kamila Balreira comemorando aniversário da farmácia",
   },
   {
     src: "/images/inauguracao-2019.webp",
