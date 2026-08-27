@@ -51,14 +51,35 @@ export const historia: {
 };
 
 /**
- * Fotos reais da farmácia (seção "Nossa farmácia em fotos").
- * `src` deve apontar para um arquivo dentro de `public/images/`.
+ * Fotos reais da farmácia (seção "Nossa farmácia em fotos"), enviadas
+ * pelo cliente (fotos antigas, da inauguração). `src` aponta para um
+ * arquivo dentro de `public/images/`.
  */
-export const galeria: Array<{ src: string; alt: string }> = [];
+export const galeria: Array<{ src: string; alt: string }> = [
+  {
+    src: "/images/fachada-equipe.webp",
+    alt: "Equipe da Farmácia Bem Estar em frente à fachada da loja",
+  },
+  {
+    src: "/images/fachada-farmaceutica.webp",
+    alt: "Farmacêutica em frente à fachada da Farmácia Bem Estar",
+  },
+  {
+    src: "/images/atendimento-cliente.webp",
+    alt: "Atendimento na Farmácia Bem Estar",
+  },
+  {
+    src: "/images/inauguracao-2019.webp",
+    alt: "Inauguração da Farmácia Bem Estar, em 11 de fevereiro de 2019, com familiares e amigos",
+  },
+];
 
 /**
  * Foto de destaque do topo da página (fachada da loja, por exemplo).
  * Enquanto for `null`, o topo mostra um cartão com horário e endereço
  * no lugar — nunca uma imagem genérica fingindo ser a loja.
  */
-export const heroImagem: { src: string; alt: string } | null = null;
+export const heroImagem: { src: string; alt: string } | null = {
+  src: "/images/equipe-loja.webp",
+  alt: "Equipe da Farmácia Bem Estar atendendo dentro da loja",
+};
