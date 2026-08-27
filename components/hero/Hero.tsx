@@ -2,12 +2,13 @@ import { Clock, MapPin, MessageCircle } from "lucide-react";
 import { empresa } from "@/content/empresa";
 import { heroImagens } from "@/content/institucional";
 import { asset } from "@/lib/asset";
+import { whatsappHref } from "@/lib/contato";
 
 const [imagemPrincipal, imagemSecundaria] = heroImagens;
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden border-b border-border">
+    <section id="inicio" className="relative overflow-hidden">
       {/* Fundo suave para dar profundidade ao topo sem concorrer com as fotos. */}
       <div
         aria-hidden="true"
@@ -33,7 +34,9 @@ export function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="#contato"
+              href={whatsappHref ?? "#contato"}
+              target={whatsappHref ? "_blank" : undefined}
+              rel={whatsappHref ? "noopener noreferrer" : undefined}
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
             >
               <MessageCircle className="h-5 w-5" aria-hidden="true" />

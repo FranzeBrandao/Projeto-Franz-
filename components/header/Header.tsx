@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import { empresa } from "@/content/empresa";
 import { asset } from "@/lib/asset";
+import { whatsappHref } from "@/lib/contato";
 import { galeria, historia, sobre } from "@/content/institucional";
 
 // O menu só oferece as seções que realmente existem na página, para nunca
@@ -58,7 +59,9 @@ export function Header() {
             {empresa.telefone.exibicao}
           </a>
           <a
-            href="#contato"
+            href={whatsappHref ?? "#contato"}
+            target={whatsappHref ? "_blank" : undefined}
+            rel={whatsappHref ? "noopener noreferrer" : undefined}
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
           >
             Falar no WhatsApp

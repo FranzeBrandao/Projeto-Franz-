@@ -1,15 +1,12 @@
 import { MessageCircle } from "lucide-react";
-import { empresa } from "@/content/empresa";
+import { whatsappHref } from "@/lib/contato";
 
 export function WhatsappFloat() {
-  const hasWhatsapp = Boolean(empresa.whatsapp.e164);
-  const href = hasWhatsapp
-    ? `https://wa.me/${empresa.whatsapp.e164.replace("+", "")}`
-    : undefined;
+  const hasWhatsapp = whatsappHref !== null;
 
   return (
     <a
-      href={href ?? "#contato"}
+      href={whatsappHref ?? "#contato"}
       aria-label="Falar no WhatsApp com a Farmácia Bem Estar"
       title={
         hasWhatsapp

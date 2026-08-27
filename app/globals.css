@@ -41,4 +41,12 @@
   .container-page {
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
+
+  /* Textura das faixas escuras: a cruz do letreiro, repetida em grade —
+     a mesma malha do painel que a farmácia usa nos eventos da loja.
+     Fica quase invisível; serve só para o azul não ficar chapado. */
+  .textura-cruz {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M23 9h10v14h14v10H33v14H23V33H9V23h14z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
+    background-size: 56px 56px;
+  }
 }

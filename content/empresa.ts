@@ -28,7 +28,18 @@ interface Empresa {
     exibicao: string;
     e164: string;
   };
-  horarioFuncionamento: Array<{ dias: string; horario: string }>;
+  /**
+   * `dias`/`horario` são o texto exibido no site. `diasSchema`, `abre` e
+   * `fecha` alimentam os dados estruturados (Schema.org) que o Google lê —
+   * ficam aqui para nunca divergirem do que a página mostra.
+   */
+  horarioFuncionamento: Array<{
+    dias: string;
+    horario: string;
+    diasSchema: string[];
+    abre: string;
+    fecha: string;
+  }>;
   redesSociais: {
     instagram: string;
     facebook: string;
@@ -75,8 +86,20 @@ export const empresa: Empresa = {
   },
 
   horarioFuncionamento: [
-    { dias: "Segunda a Sábado", horario: "07h às 22h" },
-    { dias: "Domingo e feriado", horario: "08h às 22h" },
+    {
+      dias: "Segunda a Sábado",
+      horario: "07h às 22h",
+      diasSchema: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      abre: "07:00",
+      fecha: "22:00",
+    },
+    {
+      dias: "Domingo e feriado",
+      horario: "08h às 22h",
+      diasSchema: ["Sunday", "PublicHolidays"],
+      abre: "08:00",
+      fecha: "22:00",
+    },
   ],
 
   redesSociais: {

@@ -8,6 +8,7 @@ import {
   ShieldPlus,
   Flower2,
 } from "lucide-react";
+import { TituloSecao } from "@/components/ui/TituloSecao";
 
 // Categorias definidas no briefing do cliente para a fase 1 (vitrine, sem catálogo/preços ainda).
 const CATEGORIAS = [
@@ -23,25 +24,27 @@ const CATEGORIAS = [
 
 export function ProdutosPreview() {
   return (
-    <section id="produtos" className="border-b border-border bg-muted/40 py-16 md:py-24">
+    <section id="produtos" className="border-y border-border bg-muted/50 py-16 md:py-24">
       <div className="container-page">
-        <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Produtos</h2>
-        <p className="mt-4 max-w-2xl text-lg text-foreground/70">
-          Uma prévia das categorias que você encontra na Farmácia Bem Estar. O catálogo
-          completo, com busca, preços e compra online, chega em breve.
-        </p>
+        <TituloSecao
+          etiqueta="O que você encontra"
+          titulo="Produtos"
+          descricao="Uma prévia das categorias disponíveis na loja. O catálogo completo, com busca, preços e compra online, chega em breve."
+        />
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {/* São nomes de categoria, não produtos com página própria: uma
+            lista de etiquetas diz isso melhor do que oito cartões iguais. */}
+        <ul className="mt-10 flex flex-wrap gap-3">
           {CATEGORIAS.map(({ icon: Icon, nome }) => (
-            <div
+            <li
               key={nome}
-              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary"
+              className="inline-flex items-center gap-2.5 rounded-full bg-card py-3 pl-4 pr-5 shadow-sm ring-1 ring-border"
             >
-              <Icon className="h-8 w-8 text-primary" aria-hidden="true" />
+              <Icon className="h-[18px] w-[18px] text-primary" aria-hidden="true" />
               <span className="text-sm font-semibold text-foreground">{nome}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

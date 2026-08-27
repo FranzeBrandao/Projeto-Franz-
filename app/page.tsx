@@ -1,5 +1,6 @@
 import { Header } from "@/components/header/Header";
 import { Hero } from "@/components/hero/Hero";
+import { FaixaInfo } from "@/components/faixa-info/FaixaInfo";
 import { Sobre } from "@/components/sobre/Sobre";
 import { Servicos } from "@/components/servicos/Servicos";
 import { ProdutosPreview } from "@/components/produtos-preview/ProdutosPreview";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <FaixaInfo />
         <Sobre />
         <Servicos />
         <ProdutosPreview />

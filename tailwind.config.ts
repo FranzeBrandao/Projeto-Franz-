@@ -24,6 +24,15 @@ const config: Config = {
           DEFAULT: "#25D366",
           foreground: "#FFFFFF",
         },
+        // Azul profundo da propria fachada da loja (o painel azul do
+        // letreiro). E a cor "escura" da marca — nao um cinza generico.
+        ink: {
+          DEFAULT: "#0B1B3F",
+          soft: "#14275A",
+          line: "#25396E",
+          foreground: "#F4F6FB",
+          muted: "#A8B4D4",
+        },
         background: "#FBFAF8",
         foreground: "#1C1917",
         muted: {
