@@ -8,15 +8,37 @@
  * Para publicar uma seção, basta preencher os campos abaixo.
  */
 
-/** Texto de apresentação da empresa (seção "Quem somos"). */
+/** Texto de apresentação da empresa (seção "Quem somos"), enviado pelo cliente. */
 export const sobre: {
   texto: string;
   pilares: Array<{ titulo: string; texto: string }>;
 } = {
-  // Ex.: "A Farmácia Bem Estar nasceu em Sobral com o propósito de..."
-  texto: "",
-  // Ex.: [{ titulo: "Confiança", texto: "..." }]
-  pilares: [],
+  texto: `A Farmácia Bem Estar é uma farmácia particular, de bairro, criada para cuidar de pessoas e estar presente no dia a dia da nossa comunidade.
+
+Atendemos clientes de todas as classes e valorizamos, acima de tudo, o bom atendimento, o respeito e a atenção com cada pessoa que entra em nossa farmácia. Para nós, cada cliente é único e merece ser ouvido e tratado com carinho.
+
+Mais do que vender medicamentos e produtos, buscamos entender a necessidade de cada cliente e ajudar a encontrar a melhor solução para o seu problema, sempre com responsabilidade e dedicação.
+
+Nosso compromisso é oferecer um atendimento próximo, humano e de confiança, construindo relacionamentos duradouros com nossos clientes.
+
+Farmácia Bem Estar — cuidando de você, da sua família e da nossa comunidade.`,
+  pilares: [
+    {
+      titulo: "Cuidado",
+      texto:
+        "Bom atendimento, respeito e atenção com cada pessoa que entra em nossa farmácia — cada cliente é único e merece ser ouvido e tratado com carinho.",
+    },
+    {
+      titulo: "Responsabilidade",
+      texto:
+        "Buscamos entender a necessidade de cada cliente e ajudar a encontrar a melhor solução para o seu problema, com responsabilidade e dedicação.",
+    },
+    {
+      titulo: "Proximidade",
+      texto:
+        "Atendimento próximo, humano e de confiança, construindo relacionamentos duradouros com nossos clientes.",
+    },
+  ],
 };
 
 /** Marcos da linha do tempo (seção "Nossa história"). */

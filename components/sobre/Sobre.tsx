@@ -9,7 +9,9 @@ export function Sobre() {
       <div className="container-page">
         <div className="max-w-2xl">
           <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Quem somos</h2>
-          <p className="mt-4 text-lg text-foreground/70">{sobre.texto}</p>
+          <p className="mt-4 whitespace-pre-line text-lg text-foreground/70">
+            {sobre.texto}
+          </p>
         </div>
 
         {sobre.pilares.length > 0 && (
