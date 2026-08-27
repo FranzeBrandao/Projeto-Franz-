@@ -1,12 +1,12 @@
-/**
- * Nenhum serviço é exibido até ser confirmado pelo cliente — ver PROMPT MESTRE §5 "Serviços".
- * Esta lista representa apenas placeholders estruturais, não uma oferta real.
- */
-const SERVICOS_PLACEHOLDER = [
-  "[ SERVIÇO A CONFIRMAR ]",
-  "[ SERVIÇO A CONFIRMAR ]",
-  "[ SERVIÇO A CONFIRMAR ]",
-  "[ SERVIÇO A CONFIRMAR ]",
+import { Ear, Gauge, Syringe, Truck } from "lucide-react";
+import { empresa } from "@/content/empresa";
+
+// Serviços confirmados pelo cliente — nunca listar algo não confirmado.
+const SERVICOS = [
+  { icon: Ear, nome: "Perfuração de orelha" },
+  { icon: Gauge, nome: "Verificação de pressão" },
+  { icon: Syringe, nome: "Aplicação de injetáveis" },
+  { icon: Truck, nome: "Entrega a domicílio" },
 ];
 
 export function Servicos() {
@@ -15,19 +15,30 @@ export function Servicos() {
       <div className="container-page">
         <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Serviços</h2>
         <p className="mt-4 max-w-2xl text-lg text-foreground/70">
-          [ Apenas os serviços confirmados pelo cliente serão publicados aqui. ]
+          Cuidado completo, do atendimento farmacêutico à sua porta.
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICOS_PLACEHOLDER.map((servico, index) => (
+          {SERVICOS.map(({ icon: Icon, nome }) => (
             <div
-              key={index}
-              className="rounded-xl border border-dashed border-border bg-card p-6 text-center text-sm font-medium text-foreground/60"
+              key={nome}
+              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-colors hover:border-primary"
             >
-              {servico}
+              <Icon className="h-8 w-8 text-primary" aria-hidden="true" />
+              <span className="text-sm font-semibold text-foreground">{nome}</span>
             </div>
           ))}
         </div>
+
+        {empresa.convenios.length > 0 && (
+          <p className="mt-8 text-center text-sm text-foreground/60">
+            Conveniado com{" "}
+            <span className="font-semibold text-foreground/80">
+              {empresa.convenios.join(" e ")}
+            </span>
+            .
+          </p>
+        )}
       </div>
     </section>
   );

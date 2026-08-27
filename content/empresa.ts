@@ -35,6 +35,7 @@ interface Empresa {
     tiktok: string;
   };
   email: string;
+  convenios: string[];
 }
 
 export const empresa: Empresa = {
@@ -61,10 +62,10 @@ export const empresa: Empresa = {
     e164: "+5588999813133",
   },
 
-  // [A CONFIRMAR] — mesmo número do telefone acima ou um número diferente?
+  // Confirmado pelo cliente: mesmo número do telefone.
   whatsapp: {
-    exibicao: "[WHATSAPP A CONFIRMAR]",
-    e164: "",
+    exibicao: "(88) 99981-3133",
+    e164: "+5588999813133",
   },
 
   horarioFuncionamento: [
@@ -80,4 +81,6 @@ export const empresa: Empresa = {
   },
 
   email: "", // [A CONFIRMAR]
+
+  convenios: ["Grendene", "Faculdade Uninta"],
 };

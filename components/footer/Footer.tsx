@@ -8,7 +8,11 @@ export function Footer() {
         <div>
           {/* Reconstrução provisória da logo — ver public/logo.svg */}
           <img src="/logo.svg" alt={empresa.nome} className="h-10 w-auto" />
-          <p className="mt-3 text-sm text-background/70">{empresa.endereco.completo}</p>
+          <p className="mt-3 text-sm font-semibold text-background">{empresa.nome}</p>
+          <p className="text-xs text-background/60">
+            {empresa.razaoSocial} — CNPJ {empresa.cnpj}
+          </p>
+          <p className="mt-2 text-sm text-background/70">{empresa.endereco.completo}</p>
         </div>
 
         <div>
