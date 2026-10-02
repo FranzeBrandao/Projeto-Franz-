@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
-import { Lexend, Source_Sans_3 } from "next/font/google";
+import { Barlow_Condensed, Figtree, Zilla_Slab } from "next/font/google";
 import "./globals.css";
 import { empresa } from "@/content/empresa";
 import { siteUrl } from "@/content/site";
 import { asset } from "@/lib/asset";
 import { WhatsappFloat } from "@/components/whatsapp-float/WhatsappFloat";
 import { DadosEstruturados } from "@/components/dados-estruturados/DadosEstruturados";
+import { Efeitos } from "@/components/efeitos/Efeitos";
 
-const lexend = Lexend({
+// Fontes do DESIGN.md §3 — baixadas no build e servidas pelo próprio site
+// (não dependem do Google na hora de abrir a página).
+const zillaSlab = Zilla_Slab({
   subsets: ["latin"],
-  variable: "--font-lexend",
+  weight: ["600", "700"],
+  variable: "--fonte-display",
   display: "swap",
 });
 
-const sourceSans = Source_Sans_3({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  variable: "--font-source-sans",
+  weight: ["600", "700"],
+  variable: "--fonte-rotulo",
+  display: "swap",
+});
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--fonte-texto",
   display: "swap",
 });
 
@@ -66,11 +78,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${lexend.variable} ${sourceSans.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${zillaSlab.variable} ${barlowCondensed.variable} ${figtree.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Marca que o JavaScript está ativo: só então as animações de
+            "aparecer ao rolar" escondem os elementos antes de mostrá-los. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+
+        {/* ===== ESPAÇO RESERVADO: WIDGET DA DIGISAC =====
+            Cole aqui o código do widget de atendimento da Digisac, como
+            <Script> do next/script com strategy="lazyOnload" (carrega depois
+            da página, sem atrasar a abertura). Exemplo:
+              <Script id="digisac" src="URL-DO-WIDGET" strategy="lazyOnload" />
+            ================================================ */}
+      </head>
       <body>
         <DadosEstruturados />
         {children}
         <WhatsappFloat />
+        <Efeitos />
       </body>
     </html>
   );

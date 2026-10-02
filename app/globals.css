@@ -2,51 +2,264 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Tokens do DESIGN.md — cores medidas da logo oficial e da fachada.
+   Cada cor tem a versão "-rgb" (canais separados) para permitir
+   transparência: rgb(var(--azul-rgb) / .2) ou, no Tailwind, bg-azul/20.
+   ========================================================================== */
+:root {
+  /* Marca */
+  --azul-logo-rgb: 3 46 253;        /* #032EFD — fundo da placa da logo */
+  --azul-rgb: 26 59 214;            /* #1A3BD6 — ações e links */
+  --azul-hover-rgb: 18 43 168;      /* #122BA8 */
+  --vermelho-rgb: 208 17 25;        /* #D01119 — preço, oferta, prateleira */
+  --vermelho-hover-rgb: 168 13 20;  /* #A80D14 */
+  --noite-rgb: 11 27 63;            /* #0B1B3F — azul-noite da fachada */
+  --noite-2-rgb: 20 39 90;          /* #14275A */
+
+  /* Superfícies e texto */
+  --fundo-rgb: 245 247 252;         /* #F5F7FC */
+  --cartao-rgb: 255 255 255;        /* #FFFFFF */
+  --gelo-rgb: 232 238 255;          /* #E8EEFF */
+  --linha-rgb: 220 226 240;         /* #DCE2F0 */
+  --texto-rgb: 18 26 51;            /* #121A33 */
+  --texto-suave-rgb: 74 85 120;     /* #4A5578 */
+
+  /* Funcionais */
+  --whatsapp-rgb: 18 140 74;        /* #128C4A */
+  --whatsapp-hover-rgb: 12 110 57;  /* #0C6E39 */
+  --indisponivel-rgb: 138 147 173;  /* #8A93AD */
+  --aviso-rgb: 255 244 214;         /* #FFF4D6 */
+  --aviso-borda-rgb: 232 185 49;    /* #E8B931 */
+
+  /* Sombras tingidas de azul-noite (nunca cinza puro) */
+  --sombra-1: 0 1px 2px rgb(var(--noite-rgb) / .06), 0 1px 1px rgb(var(--noite-rgb) / .04);
+  --sombra-2: 0 4px 12px -2px rgb(var(--noite-rgb) / .10);
+  --sombra-3: 0 14px 32px -12px rgb(var(--noite-rgb) / .22);
+  --sombra-4: 0 24px 60px -20px rgb(var(--noite-rgb) / .35);
+
+  --curva: cubic-bezier(.2, .7, .2, 1);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+    /* Desconta a altura do header fixo ao pular para uma âncora (#servicos…) */
+    scroll-padding-top: 7.5rem;
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-fundo font-texto text-texto antialiased;
   }
 
   h1,
   h2,
-  h3,
-  h4 {
-    @apply font-heading;
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary;
+    outline: 3px solid rgb(var(--azul-logo-rgb) / .5);
+    outline-offset: 2px;
   }
+}
+
+@layer components {
+  /* Rótulo em caixa-alta condensada — ecoa o letreiro "FARMÁCIA" */
+  .rotulo {
+    @apply font-rotulo font-semibold uppercase;
+    letter-spacing: .04em;
+  }
+
+  /* ---- Botões (DESIGN.md §4.1) ---------------------------------------- */
+  .btn {
+    @apply rotulo inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 text-[15px] leading-none;
+    transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease, color .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--sombra-2); }
+  .btn:active { transform: translateY(0) scale(.97); box-shadow: none; }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    @apply cursor-not-allowed bg-linha text-indisponivel;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-primario { @apply bg-azul text-white hover:bg-azul-hover; }
+  .btn-whatsapp { @apply bg-whatsapp text-white hover:bg-whatsapp-hover; }
+  .btn-contorno { @apply bg-transparent text-azul hover:bg-gelo; box-shadow: inset 0 0 0 2px rgb(var(--azul-rgb)); }
+  .btn-contorno:hover { box-shadow: inset 0 0 0 2px rgb(var(--azul-rgb)), var(--sombra-2); }
+  .btn-claro { @apply bg-white text-azul hover:bg-gelo; }
+
+  /* Ícone do WhatsApp dá um "toque" no hover do botão */
+  .btn-whatsapp:hover .icone-toque { animation: toque .45s var(--curva); }
+
+  /* ---- Etiqueta de gôndola: a moldura do preço (DESIGN.md §4.2) ------- */
+  .etiqueta-preco {
+    @apply relative inline-flex items-baseline gap-1 rounded-md border-2 border-current bg-white py-1 pl-4 pr-2.5 font-display font-bold leading-none text-azul;
+    font-variant-numeric: tabular-nums;
+  }
+  /* "Furo" da etiqueta de gôndola, na lateral esquerda */
+  .etiqueta-preco::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: .55;
+  }
+  .etiqueta-preco.promocao { @apply text-vermelho; }
+  .etiqueta-preco.apagada { @apply text-indisponivel; }
+
+  /* ---- Prateleira: a régua vermelha onde os produtos "pousam" --------- */
+  .regua-prateleira {
+    height: 4px;
+    border-radius: 2px;
+    background: rgb(var(--vermelho-rgb));
+    box-shadow: 0 6px 10px -6px rgb(var(--vermelho-rgb) / .55);
+  }
+
+  /* ---- Link com sublinhado que cresce da esquerda (§4.9) -------------- */
+  .link-sublinhado {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+    transition: background-size .2s var(--curva);
+  }
+  .link-sublinhado:hover,
+  .link-sublinhado:focus-visible { background-size: 100% 2px; }
 }
 
 @layer utilities {
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8;
   }
 
-  /* Textura das faixas escuras: a cruz do letreiro, repetida em grade —
-     a mesma malha do painel que a farmácia usa nos eventos da loja.
-     Fica quase invisível; serve só para o azul não ficar chapado. */
+  /* Textura do painel quadriculado dos eventos da loja: a cruz da logo
+     repetida em grade, quase invisível — o azul não fica chapado. */
   .textura-cruz {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M23 9h10v14h14v10H33v14H23V33H9V23h14z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M23 9h10v14h14v10H33v14H23V33H9V23h14z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
     background-size: 56px 56px;
   }
+
+  /* Rolagem horizontal sem barra visível (chips e prateleiras no celular) */
+  .sem-barra { scrollbar-width: none; }
+  .sem-barra::-webkit-scrollbar { display: none; }
+
+  .numeros-tabulares { font-variant-numeric: tabular-nums; }
+}
+
+/* ==========================================================================
+   Animações (DESIGN.md §7) — só transform e opacity.
+   ========================================================================== */
+
+/* Scroll reveal: só esconde quando o JS está ativo (classe "js" no <html>),
+   assim quem navega sem JavaScript vê tudo normalmente. */
+.js [data-revelar] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .45s var(--curva), transform .45s var(--curva);
+  transition-delay: var(--atraso, 0ms);
+}
+.js [data-revelar].visivel {
+  opacity: 1;
+  transform: none;
+}
+/* Cards da vitrine "assentam na prateleira": descem um pouco mais e
+   ganham um leve achatamento ao pousar. */
+.js [data-revelar="pousar"] { transform: translateY(-18px); }
+.js [data-revelar="pousar"].visivel { animation: pousar .5s var(--curva) var(--atraso, 0ms) both; }
+
+/* Sublinhado vermelho do título de seção cresce quando entra na tela */
+.titulo-traco { transform-origin: left; transform: scaleX(1); transition: transform .4s var(--curva) .1s; }
+.js [data-revelar] .titulo-traco { transform: scaleX(0); }
+.js [data-revelar].visivel .titulo-traco { transform: scaleX(1); }
+
+@keyframes pousar {
+  0% { opacity: 0; transform: translateY(-18px); }
+  70% { opacity: 1; transform: translateY(2px) scaleY(.985); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes toque {
+  0%, 100% { transform: rotate(0); }
+  40% { transform: rotate(-12deg); }
+  70% { transform: rotate(8deg); }
+}
+@keyframes ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+@keyframes palavra-sobe {
+  from { opacity: 0; transform: translateY(.45em); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pulso-whatsapp {
+  0%, 86%, 100% { box-shadow: 0 0 0 0 rgb(var(--whatsapp-rgb) / .45), var(--sombra-3); }
+  93% { box-shadow: 0 0 0 14px rgb(var(--whatsapp-rgb) / 0), var(--sombra-3); }
+}
+@keyframes giro-cruz {
+  0% { transform: rotate(0); }
+  60% { transform: rotate(100deg); }
+  100% { transform: rotate(90deg); }
+}
+@keyframes letreiro {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animar-ken-burns { animation: ken-burns 6.5s linear both; }
+.animar-palavra { display: inline-block; animation: palavra-sobe .5s var(--curva) both; }
+.animar-pulso { animation: pulso-whatsapp 8s ease-out infinite; }
+.animar-giro { animation: giro-cruz .6s var(--curva); }
+.animar-letreiro { animation: letreiro 22s linear infinite; }
+
+/* Movimento reduzido: tudo aparece direto e nada gira sozinho */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-revelar],
+  .js [data-revelar="pousar"] { opacity: 1; transform: none; }
+  .js [data-revelar] .titulo-traco { transform: none; }
+  .animar-letreiro { animation: none; }
+}
+
+/* ---- Card de produto: no computador (com mouse) o botão surge no hover;
+        no celular fica sempre visível (DESIGN.md §4.2) ------------------ */
+@media (hover: hover) and (min-width: 1024px) {
+  .card-produto .card-acao {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s var(--curva), transform .25s var(--curva);
+  }
+  .card-produto:hover .card-acao,
+  .card-produto:focus-within .card-acao {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Clique em "Comprar pelo WhatsApp": o botão confirma "Abrindo WhatsApp…"
+   por 2 segundos (o atributo data-enviado é posto por components/efeitos). */
+.rotulo-enviado { display: none; }
+[data-enviado] .rotulo-normal { display: none; }
+[data-enviado] .rotulo-enviado { display: inline; }
+
+/* Mega menu entra com fade + deslize de 8px (DESIGN.md §4.4) */
+.mega-menu { animation: mega-entra .18s var(--curva) both; }
+@keyframes mega-entra {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
 }

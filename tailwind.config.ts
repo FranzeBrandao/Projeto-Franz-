@@ -1,56 +1,51 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Cores do site — os valores ficam em `app/globals.css` (variáveis CSS),
+ * definidos no DESIGN.md. Aqui só ligamos cada nome à variável, no formato
+ * que deixa o Tailwind aplicar transparência (ex.: `bg-azul/10`).
+ */
+const cor = (nome: string) => `rgb(var(--${nome}-rgb) / <alpha-value>)`;
+
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        // Derivadas da logo real da Farmácia Bem Estar (cruz branca sobre azul,
-        // wordmark "Bem Estar" em vermelho) — substitui a paleta provisória
-        // inspirada na Pague Menos.
-        primary: {
-          DEFAULT: "#D71920",
-          hover: "#AD1319",
-          foreground: "#FFFFFF",
-        },
-        secondary: {
-          DEFAULT: "#153FC7",
-          hover: "#102FA0",
-          foreground: "#FFFFFF",
-        },
-        // Cor própria do WhatsApp — usada só no botão flutuante, para manter
-        // o reconhecimento imediato do ícone independente da marca do site.
-        whatsapp: {
-          DEFAULT: "#25D366",
-          foreground: "#FFFFFF",
-        },
-        // Azul profundo da propria fachada da loja (o painel azul do
-        // letreiro). E a cor "escura" da marca — nao um cinza generico.
-        ink: {
-          DEFAULT: "#0B1B3F",
-          soft: "#14275A",
-          line: "#25396E",
-          foreground: "#F4F6FB",
-          muted: "#A8B4D4",
-        },
-        background: "#FBFAF8",
-        foreground: "#1C1917",
-        muted: {
-          DEFAULT: "#F1EFEC",
-          foreground: "#57534E",
-        },
-        border: "#E7E4DE",
-        card: "#FFFFFF",
+        // Marca (medidas da logo oficial)
+        "azul-logo": cor("azul-logo"),
+        azul: { DEFAULT: cor("azul"), hover: cor("azul-hover") },
+        vermelho: { DEFAULT: cor("vermelho"), hover: cor("vermelho-hover") },
+        // Azul-noite da fachada: a cor escura da marca
+        noite: { DEFAULT: cor("noite"), 2: cor("noite-2") },
+        // Superfícies e texto
+        fundo: cor("fundo"),
+        cartao: cor("cartao"),
+        gelo: cor("gelo"),
+        linha: cor("linha"),
+        texto: { DEFAULT: cor("texto"), suave: cor("texto-suave") },
+        // Funcionais
+        whatsapp: { DEFAULT: cor("whatsapp"), hover: cor("whatsapp-hover") },
+        indisponivel: cor("indisponivel"),
+        aviso: { DEFAULT: cor("aviso"), borda: cor("aviso-borda") },
+
+        // Apelidos usados pelas páginas de texto (Política, Termos)
+        background: cor("fundo"),
+        foreground: cor("texto"),
       },
       fontFamily: {
-        heading: ["var(--font-lexend)", "sans-serif"],
-        body: ["var(--font-source-sans)", "sans-serif"],
+        display: ["var(--fonte-display)", "Georgia", "serif"],
+        rotulo: ["var(--fonte-rotulo)", "Arial Narrow", "sans-serif"],
+        texto: ["var(--fonte-texto)", "system-ui", "sans-serif"],
       },
-      spacing: {
-        "18": "4.5rem",
+      boxShadow: {
+        1: "var(--sombra-1)",
+        2: "var(--sombra-2)",
+        3: "var(--sombra-3)",
+        4: "var(--sombra-4)",
       },
-      borderRadius: {
-        xl: "1rem",
+      transitionTimingFunction: {
+        curva: "cubic-bezier(.2,.7,.2,1)",
       },
     },
   },

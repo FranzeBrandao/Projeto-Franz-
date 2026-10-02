@@ -1,41 +1,34 @@
 /**
- * Cabeçalho padrão das seções: uma etiqueta curta, o título e uma linha
- * de apoio. Mantém o mesmo ritmo de tipografia na página inteira, no
- * fundo claro e no escuro.
+ * Cabeçalho das seções: rótulo condensado, título em slab e um traço
+ * vermelho que cresce quando a seção entra na tela (DESIGN.md §7).
  */
 export function TituloSecao({
   etiqueta,
   titulo,
   descricao,
   escuro = false,
+  id,
 }: {
-  etiqueta: string;
+  etiqueta?: string;
   titulo: string;
   descricao?: string;
   escuro?: boolean;
+  id?: string;
 }) {
   return (
-    <div className="max-w-2xl">
-      <p
-        className={`flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] ${
-          escuro ? "text-ink-muted" : "text-primary"
-        }`}
-      >
-        <span
-          aria-hidden="true"
-          className={`h-px w-7 ${escuro ? "bg-white/25" : "bg-primary/40"}`}
-        />
-        {etiqueta}
-      </p>
+    <div className="max-w-2xl" data-revelar>
+      {etiqueta && (
+        <p className={`rotulo text-[13px] ${escuro ? "text-white/70" : "text-vermelho"}`}>{etiqueta}</p>
+      )}
       <h2
-        className={`mt-3 text-3xl font-bold tracking-tight sm:text-4xl ${
-          escuro ? "text-ink-foreground" : "text-foreground"
-        }`}
+        id={id}
+        className={`mt-1 text-[26px] font-bold leading-tight sm:text-4xl ${escuro ? "text-white" : "text-texto"}`}
       >
         {titulo}
       </h2>
+      <span aria-hidden="true" className="titulo-traco mt-3 block h-1 w-12 rounded-full bg-vermelho" />
       {descricao && (
-        <p className={`mt-4 text-lg ${escuro ? "text-ink-muted" : "text-foreground/70"}`}>
+        <p className={`mt-4 text-[17px] leading-relaxed ${escuro ? "text-white/75" : "text-texto-suave"}`}>
           {descricao}
         </p>
       )}
