@@ -5,6 +5,8 @@
  * confirmação do cliente — nunca inventar valor real para eles.
  */
 
+import { WHATSAPP_PEDIDOS, WHATSAPP_PEDIDOS_EXIBICAO } from "./pedidos";
+
 interface Empresa {
   nome: string;
   razaoSocial: string;
@@ -79,10 +81,13 @@ export const empresa: Empresa = {
     e164: "+5588999813133",
   },
 
-  // Número novo, cadastrado para a API do WhatsApp Business (Meta).
+  // WhatsApp da farmácia: é o mesmo número dos pedidos (WhatsApp Business,
+  // sem custo por mensagem), definido em `content/pedidos.ts` →
+  // WHATSAPP_PEDIDOS. Trocando lá, muda no site inteiro. O número da API
+  // da Meta, (88) 99730-6141, saiu do site porque passou a cobrar por mensagem.
   whatsapp: {
-    exibicao: "(88) 99730-6141",
-    e164: "+5588997306141",
+    exibicao: WHATSAPP_PEDIDOS_EXIBICAO,
+    e164: `+${WHATSAPP_PEDIDOS}`,
   },
 
   horarioFuncionamento: [

@@ -3,10 +3,10 @@ import { emReais } from "@/lib/produtos";
 /**
  * Configuração dos pedidos pelo WhatsApp.
  *
- * WHATSAPP_PEDIDOS é o número EXCLUSIVO para pedidos de produtos do site
- * (contato "Pedido Farmácia Bem Estar"). Ele não substitui os telefones de
- * contato de `content/empresa.ts` — esses continuam valendo para ligações
- * e para o botão flutuante do WhatsApp.
+ * WHATSAPP_PEDIDOS é o ÚNICO número de WhatsApp do site (contato "Pedido
+ * Farmácia Bem Estar", WhatsApp Business). Vale para os botões de compra,
+ * o botão flutuante, o topo, o contato e o rodapé. O telefone de ligações
+ * fica separado, em `content/empresa.ts` → telefone.
  *
  * Para trocar o número no futuro, altere só a linha abaixo (formato:
  * 55 + DDD + número, apenas dígitos) e gere o build de novo.

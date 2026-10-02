@@ -2,7 +2,7 @@ import { Facebook, Instagram } from "lucide-react";
 import { empresa } from "@/content/empresa";
 import { asset } from "@/lib/asset";
 import { categorias } from "@/content/categorias";
-import { linkPedidoGeral, WHATSAPP_PEDIDOS_EXIBICAO } from "@/content/pedidos";
+import { linkPedidoGeral } from "@/content/pedidos";
 
 export function Footer() {
   return (
@@ -40,19 +40,15 @@ export function Footer() {
               </a>
             </li>
             <li>
-              Pedidos:{" "}
+              WhatsApp e pedidos:{" "}
               <a
                 href={linkPedidoGeral()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white underline-offset-4 hover:underline"
               >
-                {WHATSAPP_PEDIDOS_EXIBICAO}
+                {empresa.whatsapp.exibicao}
               </a>
-            </li>
-            <li>
-              WhatsApp:{" "}
-              <span className="text-white">{empresa.whatsapp.exibicao}</span>
             </li>
             {empresa.email && (
               <li>

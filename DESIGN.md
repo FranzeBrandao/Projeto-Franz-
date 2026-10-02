@@ -217,7 +217,7 @@ Cor `--azul`, sublinhado de 2px que aparece da esquerda no hover. Foco: contorno
 
 ### 4.10 Botão flutuante do WhatsApp
 
-Mantido (canto inferior direito, 56px). Ganha um pulso suave a cada 8s (para no `prefers-reduced-motion`). Usa o número de **contato** atual; o número de **pedidos** fica só nos botões de compra.
+Mantido (canto inferior direito, 56px). Ganha um pulso suave a cada 8s (para no `prefers-reduced-motion`). Usa o mesmo número dos pedidos — (88) 99726-9402 é o único WhatsApp do site (decisão do cliente: o número da API da Meta passou a cobrar por mensagem).
 
 ---
 
@@ -359,7 +359,7 @@ presta atenção percebe.
 3. Não cadastre medicamento que exige receita (tarja vermelha/preta) — só MIP.
 4. Não use gradiente colorido de fundo, emoji como ícone ou cards com faixa colorida na lateral.
 5. Não mostre imagem quebrada nem foto de banco fingindo ser o produto.
-6. Não use o número de pedidos (88 99726-9402) nos contatos gerais, nem troque os telefones existentes.
+6. Não espalhe números pelo código: o WhatsApp vem só de `WHATSAPP_PEDIDOS` e o telefone de ligação só de `content/empresa.ts`.
 7. Não anime nada que trave o celular (vídeo de fundo, 3D, parallax pesado).
 8. Não use vermelho em botões de ação — vermelho é preço e oferta.
 
