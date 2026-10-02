@@ -161,5 +161,18 @@
         <p class="footer__line">Farmácia Bem Estar — cuidando de você e da sua família.</p>
       </footer>
     </main>
+    <script>
+      // No celular, os botões de WhatsApp abrem o aplicativo direto
+      // (whatsapp://), sem passar pela página intermediária do wa.me —
+      // que aparece principalmente quando o link é aberto pelo Instagram.
+      // No computador continua o link wa.me, que abre o WhatsApp Web.
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function (a) {
+          var numero = a.getAttribute("href").split("wa.me/")[1].split(/[/?#]/)[0];
+          a.setAttribute("href", "whatsapp://send?phone=" + numero);
+          a.removeAttribute("target");
+        });
+      }
+    </script>
   </body>
 </html>
