@@ -1,0 +1,40 @@
+# Farmácia Bem Estar — página de link na bio
+# Hospedagem Hostinger (LiteSpeed / Apache)
+#
+# Este arquivo vale só para a pasta em que ele está. Não mexe no site principal.
+
+DirectoryIndex index.html
+
+# /compreaqui  ->  /compreaqui/
+# Sem a barra final o navegador procuraria o CSS e as imagens na raiz do site.
+DirectorySlash On
+
+AddDefaultCharset UTF-8
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+</IfModule>
+
+# ---- Compressão -------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain image/svg+xml
+</IfModule>
+
+# ---- Cache ------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html  "access plus 0 seconds"
+  ExpiresByType text/css   "access plus 1 hour"
+  ExpiresByType image/png  "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # As fontes nunca mudam de nome: podem ficar guardadas para sempre.
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

@@ -1,0 +1,724 @@
+/* ==========================================================================
+   Farmácia Bem Estar — Link na bio
+   Identidade: azul + vermelho da marca sobre base escura (azul-petróleo/quase preto).
+   Tom: clínico, preciso, confiável. Pouca cor, muito espaço, movimento discreto.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tipografia (self-hosted, subset latin — 2 arquivos, sem requisição externa)
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Schibsted Grotesk";
+  src: url("fonts/schibsted-grotesk-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/ibm-plex-mono-500-latin.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* --------------------------------------------------------------------------
+   2. Design tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Base escura — azul-petróleo profundo, nunca preto puro */
+  --ink: #05070f;
+  --ink-soft: #090d1a;
+
+  /* Marca */
+  --blue: #2b57ff;
+  --blue-bright: #7f9bff;
+  --navy: #0a1745;
+  --red: #ff5a5a;
+  --red-deep: #f3222a;
+  --red-ink: #cc1119;
+  --whats: #2fd06e;
+  --whats-deep: #109f52;
+
+  /* Texto */
+  --text: #eef1fa;
+  --text-muted: #9aa4bf;
+  --text-faint: #808aa8;
+
+  /* Superfícies e traços */
+  --surface: rgba(255, 255, 255, 0.045);
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.2);
+
+  /* Sombras */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 18px 38px -24px rgba(0, 0, 0, 0.95);
+  --shadow-card-hover: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 26px 50px -24px rgba(0, 0, 0, 1), 0 0 0 1px rgba(127, 155, 255, 0.14);
+  --shadow-badge: 0 10px 22px -12px rgba(47, 208, 110, 0.5);
+
+  /* Ritmo */
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* saída lenta no início: o branco fica um instante antes de dissolver */
+  --ease-out-slow: cubic-bezier(0.5, 0, 0.8, 0.6);
+  --exit: 380ms;
+
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   3. Reset enxuto
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+h1,
+p,
+figure {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   4. Página e atmosfera de fundo
+   -------------------------------------------------------------------------- */
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(28px, 7vh, 64px) 20px clamp(24px, 5vh, 48px);
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  background-color: var(--ink);
+  color: var(--text);
+  font-family: "Schibsted Grotesk", ui-sans-serif, "Segoe UI", Helvetica, Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Auréola azul no topo + brasa vermelha discreta no rodapé */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(115% 62% at 50% -12%, rgba(43, 87, 255, 0.34), transparent 62%),
+    radial-gradient(90% 46% at 50% 112%, rgba(243, 34, 42, 0.13), transparent 68%),
+    linear-gradient(180deg, var(--ink-soft), var(--ink) 42%);
+}
+
+/* Textura de cruzes farmacêuticas — quase imperceptível, dá profundidade */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M25 18h6v7h7v6h-7v7h-6v-7h-7v-6h7z' fill='%23ffffff' fill-opacity='.022'/%3E%3C/svg%3E");
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(78% 60% at 50% 32%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(78% 60% at 50% 32%, #000 0%, transparent 76%);
+}
+
+.page {
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------------------
+   5. Cabeçalho
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  text-align: center;
+}
+
+.masthead__logo {
+  position: relative;
+  display: inline-block;
+  margin-inline: auto;
+}
+
+/* Brilho suave atrás da placa azul do logo */
+.masthead__logo::before {
+  content: "";
+  position: absolute;
+  inset: -34% -14%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(43, 87, 255, 0.5), transparent 72%);
+  filter: blur(6px);
+}
+
+.masthead__logo img {
+  position: relative;
+  z-index: 1;
+  width: clamp(184px, 54vw, 224px);
+  height: auto;
+  border-radius: 12px;
+}
+
+.masthead__title {
+  margin-top: clamp(20px, 4.5vw, 26px);
+  font-size: clamp(1.32rem, 5.6vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+  color: var(--text);
+}
+
+.masthead__lede {
+  margin-top: 10px;
+  font-size: clamp(0.86rem, 3.5vw, 0.94rem);
+  line-height: 1.55;
+  text-wrap: pretty;
+  color: var(--text-muted);
+}
+
+.masthead__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 6px 14px 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.masthead__place::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 3px rgba(243, 34, 42, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   6. Botões / cartões de link
+   -------------------------------------------------------------------------- */
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: clamp(28px, 6vw, 38px);
+}
+
+.link {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 78px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  outline: none;
+  isolation: isolate;
+  transition: transform 220ms var(--ease), border-color 220ms var(--ease),
+    box-shadow 220ms var(--ease), background-color 220ms var(--ease);
+}
+
+/* ---- Ação principal: as duas unidades no WhatsApp ---- */
+
+.link--primary {
+  background-image: linear-gradient(
+      148deg,
+      rgba(43, 87, 255, 0.28) 0%,
+      rgba(43, 87, 255, 0.09) 52%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    linear-gradient(var(--ink-soft), var(--ink-soft));
+  box-shadow: var(--shadow-card);
+}
+
+/* Filete de luz no topo do cartão */
+.link--primary::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(127, 155, 255, 0.55), transparent);
+  opacity: 0.7;
+  transition: opacity 220ms var(--ease);
+}
+
+/* Camada de seleção: acende em branco quando a loja é escolhida.
+   Entra rápido (110ms) e sai devagar (460ms) — a saída é o rastro do toque. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 46%, #fff 0%, #fff 58%, #eaf0ff 100%);
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+  transition: opacity var(--exit) var(--ease-out-slow),
+    transform var(--exit) var(--ease-out-slow);
+}
+
+/* Conteúdo sempre acima da camada branca */
+.link__badge,
+.link__text,
+.link__arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.link__badge {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(158deg, var(--whats), var(--whats-deep));
+  box-shadow: var(--shadow-badge);
+  color: #fff;
+  transition: transform 220ms var(--ease);
+}
+
+.link__badge svg {
+  width: 25px;
+  height: 25px;
+}
+
+.link__text {
+  min-width: 0;
+}
+
+.link__eyebrow {
+  display: block;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.61rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+  transition: color 240ms linear 140ms;
+}
+
+.link__title {
+  display: block;
+  margin-top: 3px;
+  font-size: clamp(0.9rem, 3.9vw, 1.06rem);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+  color: #fff;
+  transition: color 240ms linear 140ms;
+}
+
+.link__meta {
+  display: block;
+  margin-top: 3px;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  transition: color 240ms linear 140ms;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link__arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--text-faint);
+  transition: transform 220ms var(--ease), color 220ms var(--ease);
+}
+
+/* ---- Ação secundária: site oficial (mesma identidade, tratamento em contorno) ---- */
+
+.link--ghost {
+  min-height: 68px;
+  margin-top: 6px;
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.022);
+}
+
+.link--ghost .link__badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  border: 1px solid rgba(127, 155, 255, 0.28);
+  background: rgba(43, 87, 255, 0.16);
+  box-shadow: none;
+  color: var(--blue-bright);
+}
+
+.link--ghost .link__badge svg {
+  width: 20px;
+  height: 20px;
+}
+
+.link--ghost .link__title {
+  margin-top: 0;
+  font-size: clamp(0.9rem, 3.7vw, 1rem);
+}
+
+/* --------------------------------------------------------------------------
+   7. Interação — discreta no hover, tátil no toque
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+  }
+
+  .link--primary:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .link--primary:hover::before {
+    opacity: 1;
+  }
+
+  .link--ghost:hover {
+    background-color: rgba(43, 87, 255, 0.12);
+    border-color: rgba(127, 155, 255, 0.4);
+  }
+
+  .link:hover .link__badge {
+    transform: scale(1.05);
+  }
+
+  .link:hover .link__arrow {
+    transform: translateX(3px);
+    color: var(--blue-bright);
+  }
+}
+
+/* ---- Escolha da loja: o cartão acende em branco ---- */
+
+.link:active::after {
+  opacity: 1;
+  transform: scale(1);
+  transition-duration: 110ms;
+}
+
+/* Especificidade acima das regras de :hover, que vêm antes */
+.link--primary:active,
+.link--ghost:active {
+  transform: scale(0.972);
+  border-color: rgba(43, 87, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(43, 87, 255, 0.22),
+    0 20px 38px -16px rgba(43, 87, 255, 0.6);
+  transition-duration: 110ms;
+}
+
+.link:active .link__title {
+  color: var(--navy);
+  transition: color 110ms var(--ease);
+}
+
+.link:active .link__eyebrow {
+  color: var(--red-ink);
+  transition: color 110ms var(--ease);
+}
+
+.link:active .link__meta {
+  color: #5a6480;
+  transition: color 110ms var(--ease);
+}
+
+.link:active .link__arrow {
+  color: var(--blue);
+  transform: translateX(4px);
+  transition-duration: 110ms;
+}
+
+.link:active .link__badge {
+  transform: scale(1.06);
+  transition-duration: 110ms;
+}
+
+.link--primary:active .link__badge {
+  box-shadow: 0 10px 20px -10px rgba(16, 159, 82, 0.55);
+}
+
+.link--ghost:active .link__badge {
+  border-color: rgba(43, 87, 255, 0.38);
+  background: rgba(43, 87, 255, 0.12);
+  color: var(--blue);
+}
+
+/* O filete de luz do topo some assim que o cartão fica branco */
+.link--primary:active::before {
+  opacity: 0;
+}
+
+.link:focus-visible {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px var(--blue-bright);
+}
+
+/* --------------------------------------------------------------------------
+   8. Rodapé
+   -------------------------------------------------------------------------- */
+
+.footer {
+  margin-top: clamp(30px, 7vw, 44px);
+  text-align: center;
+}
+
+.footer__rule {
+  width: 46px;
+  height: 1px;
+  margin: 0 auto 16px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+.footer__line {
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   9. Entrada da página — uma orquestração só, escalonada
+   -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: rise 620ms var(--ease) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* --------------------------------------------------------------------------
+   10. Telas pequenas e paisagem
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 420px) {
+  body {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .link {
+    gap: 12px;
+    padding: 14px 14px;
+  }
+
+  .link__badge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .link__badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .link--ghost .link__badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .link__arrow {
+    width: 16px;
+  }
+}
+
+@media (max-width: 359px) {
+  .link {
+    min-height: 72px;
+    gap: 10px;
+    padding: 13px 12px;
+    border-radius: 18px;
+  }
+
+  .link__badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .link__badge svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .link--ghost .link__badge {
+    width: 38px;
+    height: 38px;
+  }
+
+  .link__eyebrow {
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+  }
+
+  .link__meta {
+    font-size: 0.6rem;
+  }
+
+  .link__title {
+    font-size: 0.85rem;
+  }
+}
+
+/* Celular deitado / telas baixas: comprime o vertical, nada é cortado */
+@media (max-height: 620px) and (orientation: landscape) {
+  body {
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+
+  .masthead__logo img {
+    width: 168px;
+  }
+
+  .masthead__title {
+    margin-top: 16px;
+    font-size: 1.24rem;
+  }
+
+  .masthead__place {
+    margin-top: 14px;
+  }
+
+  .links {
+    margin-top: 22px;
+  }
+
+  .footer {
+    margin-top: 26px;
+  }
+}
+
+/* Desktop: mesma coluna centrada, com um pouco mais de presença */
+@media (min-width: 720px) and (min-height: 700px) {
+  .page {
+    max-width: 492px;
+  }
+
+  .masthead__logo img {
+    width: 246px;
+  }
+
+  .masthead__title {
+    font-size: 1.72rem;
+  }
+
+  .masthead__lede {
+    font-size: 0.98rem;
+  }
+
+  .links {
+    gap: 14px;
+  }
+
+  .link {
+    padding: 17px 20px;
+    min-height: 86px;
+  }
+
+  .link--ghost {
+    min-height: 74px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. Acessibilidade
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+
+  .link::after {
+    transform: none;
+  }
+
+  .link--primary:active,
+  .link--ghost:active,
+  .link:active .link__badge,
+  .link:active .link__arrow {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgba(255, 255, 255, 0.28);
+    --text-muted: #c3cadd;
+    --text-faint: #a8b0c8;
+  }
+}
