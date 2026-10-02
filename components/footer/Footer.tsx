@@ -14,7 +14,7 @@ export function Footer() {
               (images.unoptimized). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={asset("/logo-oficial.webp")} alt={empresa.nome} className="h-10 w-auto" />
-          <p className="mt-4 font-display text-sm font-semibold">{empresa.nome}</p>
+          <p className="mt-4 font-display text-sm font-bold">{empresa.nome}</p>
           {/* Razão social, CNPJ e endereço completo ficam visíveis no rodapé:
               é o que a verificação de negócio da Meta procura no site. */}
           <p className="mt-1 text-xs text-white/70">
@@ -34,7 +34,7 @@ export function Footer() {
               Telefone:{" "}
               <a
                 href={`tel:${empresa.telefone.e164}`}
-                className="text-white underline-offset-4 hover:underline"
+                className="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
               >
                 {empresa.telefone.exibicao}
               </a>
@@ -45,7 +45,7 @@ export function Footer() {
                 href={linkPedidoGeral()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white underline-offset-4 hover:underline"
+                className="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
               >
                 {empresa.whatsapp.exibicao}
               </a>
@@ -54,7 +54,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${empresa.email}`}
-                  className="break-words text-white underline-offset-4 hover:underline"
+                  className="break-words text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
                 >
                   {empresa.email}
                 </a>

@@ -60,8 +60,8 @@ Cores **medidas da logo oficial** (`public/logo-oficial.webp`) e da fachada.
   --texto-suave: #4A5578;      --texto-suave-rgb: 74 85 120;  /* 7,4:1 no branco */
 
   /* Funcionais */
-  --whatsapp: #128C4A;         --whatsapp-rgb: 18 140 74;     /* botão "Comprar pelo WhatsApp" — verde escurecido p/ texto branco passar 4,5:1 */
-  --whatsapp-hover: #0C6E39;   --whatsapp-hover-rgb: 12 110 57;
+  --whatsapp: #0F8044;         --whatsapp-rgb: 15 128 68;     /* botão "Comprar pelo WhatsApp" — verde escurecido p/ texto branco passar 4,5:1 (5,0:1) */
+  --whatsapp-hover: #0A6332;   --whatsapp-hover-rgb: 10 99 50;
   --indisponivel: #8A93AD;     --indisponivel-rgb: 138 147 173;
   --aviso: #FFF4D6;            --aviso-rgb: 255 244 214;      /* fundo do aviso de medicamentos */
   --aviso-borda: #E8B931;      --aviso-borda-rgb: 232 185 49;

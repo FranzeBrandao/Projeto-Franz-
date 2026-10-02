@@ -8,6 +8,9 @@ import { CardProduto } from "@/components/produto/CardProduto";
  */
 export function GradeProdutos({ produtos, colunasLargas = false }: { produtos: Produto[]; colunasLargas?: boolean }) {
   return (
+    <>
+    {/* Título só para leitores de tela: mantém a ordem h1 → h2 → h3 (nome do produto) */}
+    <h2 className="sr-only">Lista de produtos</h2>
     <ul
       className={`grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 sm:gap-x-5 ${
         colunasLargas ? "lg:grid-cols-4 xl:grid-cols-5" : "lg:grid-cols-3 xl:grid-cols-4"
@@ -19,5 +22,6 @@ export function GradeProdutos({ produtos, colunasLargas = false }: { produtos: P
         </li>
       ))}
     </ul>
+    </>
   );
 }

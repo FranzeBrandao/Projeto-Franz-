@@ -15,8 +15,10 @@ export default function BuscaPage() {
   return (
     <>
       <Header />
-      <main className="container-page min-h-[60vh] py-8 sm:py-10">
-        <Suspense fallback={<p className="text-texto-suave">Carregando a busca…</p>}>
+      <main className="container-page min-h-screen py-8 sm:py-10">
+        {/* min-h-screen + este espaço reservado evitam que o rodapé "pule"
+            enquanto os resultados aparecem */}
+        <Suspense fallback={<h1 className="text-[28px] font-bold leading-tight sm:text-[36px]">Buscar produtos</h1>}>
           <ResultadoBusca produtos={produtos} />
         </Suspense>
       </main>

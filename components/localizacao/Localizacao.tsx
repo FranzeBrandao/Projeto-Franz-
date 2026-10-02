@@ -13,50 +13,50 @@ export function Localizacao() {
         <div>
           <TituloSecao etiqueta="Gerardo Cristino, Sobral" titulo="Localização" />
 
-          <dl className="mt-8 space-y-5">
-            <div className="flex items-start gap-3.5">
+          <ul className="mt-8 space-y-5">
+            <li className="flex items-start gap-3.5">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
+                <p className="rotulo text-[13px] text-texto-suave">
                   Endereço
-                </dt>
-                <dd className="mt-1 text-texto-suave">{empresa.endereco.completo}</dd>
+                </p>
+                <div className="mt-1 text-texto-suave">{empresa.endereco.completo}</div>
               </div>
-            </div>
+            </li>
 
-            <div className="flex items-start gap-3.5">
+            <li className="flex items-start gap-3.5">
               <Phone className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
+                <p className="rotulo text-[13px] text-texto-suave">
                   Telefone
-                </dt>
-                <dd className="mt-1">
+                </p>
+                <div className="mt-1">
                   <a
                     href={`tel:${empresa.telefone.e164}`}
                     className="text-texto-suave underline-offset-4 hover:text-azul hover:underline"
                   >
                     {empresa.telefone.exibicao}
                   </a>
-                </dd>
+                </div>
               </div>
-            </div>
+            </li>
 
-            <div className="flex items-start gap-3.5">
+            <li className="flex items-start gap-3.5">
               <Clock className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
+                <p className="rotulo text-[13px] text-texto-suave">
                   Horário
-                </dt>
-                <dd className="mt-1 text-texto-suave">
+                </p>
+                <div className="mt-1 text-texto-suave">
                   {empresa.horarioFuncionamento.map((item) => (
                     <span key={item.dias} className="block">
                       <span className="font-medium">{item.dias}:</span> {item.horario}
                     </span>
                   ))}
-                </dd>
+                </div>
               </div>
-            </div>
-          </dl>
+            </li>
+          </ul>
 
           <a
             href={comoChegarHref}
