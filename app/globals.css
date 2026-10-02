@@ -263,3 +263,18 @@
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: none; }
 }
+
+/* Grade das páginas de categoria/busca: a régua vermelha passa embaixo de
+   cada card e atravessa o espaço entre eles, formando uma prateleira por
+   fileira. */
+.item-gondola { position: relative; padding-bottom: 14px; }
+.item-gondola::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  bottom: 0;
+  height: 4px;
+  background: rgb(var(--vermelho-rgb));
+  box-shadow: 0 6px 10px -6px rgb(var(--vermelho-rgb) / .55);
+}
