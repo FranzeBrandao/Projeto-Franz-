@@ -1,0 +1,82 @@
+# Publicação do site na Hostinger
+#
+# Toda vez que a branch "main" recebe uma alteração, este robô:
+#   1. confere o código (lint) e gera o site estático (pasta out/);
+#   2. coloca junto a página /compreaqui/ (link na bio), copiada sem
+#      mudanças do repositório público FranzeBrandao/Link-na-bio;
+#   3. salva o resultado na branch "hostinger".
+#
+# A Hostinger (hPanel → Git) fica apontada para a branch "hostinger" e
+# publica o conteúdo dela em public_html. Ninguém precisa rodar comandos
+# no computador.
+#
+# Também dá para rodar na mão: aba Actions → "Publicar na Hostinger" →
+# Run workflow.
+
+name: Publicar na Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Se duas publicações começarem juntas, só a mais nova segue.
+concurrency:
+  group: publicar-hostinger
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código do site
+        uses: actions/checkout@v4
+
+      - name: Preparar o Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Conferir o código
+        run: npm run lint
+
+      - name: Gerar o site estático
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://farmaciabemestarsobral.com
+
+      - name: Baixar a página do link na bio (/compreaqui/)
+        uses: actions/checkout@v4
+        with:
+          repository: FranzeBrandao/Link-na-bio
+          path: _link-na-bio
+
+      - name: Colocar a /compreaqui/ dentro do site
+        # Mesmos arquivos do pacote compreaqui.zip (ver README do Link-na-bio)
+        run: |
+          mkdir -p out/compreaqui
+          cp -r _link-na-bio/index.html _link-na-bio/.htaccess _link-na-bio/favicon.png \
+                _link-na-bio/assets _link-na-bio/images out/compreaqui/
+          rm -f out/compreaqui/images/logo-farmacia-bem-estar.png
+          test -f out/compreaqui/index.html
+          test -f out/.htaccess
+
+      - name: Salvar o site pronto na branch "hostinger"
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: hostinger
+          publish_dir: ./out
+          # Mantém o histórico (a Hostinger atualiza com "git pull")
+          force_orphan: false
+          enable_jekyll: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          full_commit_message: "Site gerado a partir de ${{ github.sha }}"
