@@ -1,115 +1,69 @@
-import { Clock, MapPin, MessageCircle } from "lucide-react";
+import { Clock, MapPin, Truck } from "lucide-react";
+import { banners } from "@/content/banners";
 import { empresa } from "@/content/empresa";
-import { heroImagens } from "@/content/institucional";
+import { ENTREGA_GRATIS } from "@/content/loja";
+import { linkPedidoGeral } from "@/content/pedidos";
 import { asset } from "@/lib/asset";
 import { whatsappHref } from "@/lib/contato";
+import { HeroCarrossel } from "./HeroCarrossel";
 
-const [imagemPrincipal, imagemSecundaria] = heroImagens;
+/** Converte o "link" do banner no endereço real. */
+function resolverLink(link: string): string {
+  if (link === "whatsapp-pedidos") return linkPedidoGeral();
+  if (link === "whatsapp-contato") return whatsappHref ?? "/#contato";
+  return link;
+}
 
+/**
+ * Topo da página inicial: carrossel + coluna lateral (só no computador)
+ * com entrega grátis e horário.
+ */
 export function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden">
-      {/* Fundo suave para dar profundidade ao topo sem concorrer com as fotos. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-secondary/5 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl"
-      />
+    <section id="inicio" aria-labelledby="titulo-pagina" className="pt-4 sm:pt-6">
+      <h1 id="titulo-pagina" className="sr-only">
+        {empresa.nome} — farmácia em Sobral - CE com pedidos pelo WhatsApp
+      </h1>
+      <div className="container-page grid gap-5 lg:grid-cols-[1fr_300px]">
+        <HeroCarrossel banners={banners} hrefs={banners.map((b) => resolverLink(b.link))} />
 
-      <div className="container-page relative grid gap-12 py-16 md:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <div>
-          <p className="mb-4 inline-flex items-center rounded-full bg-secondary/10 px-4 py-1.5 text-sm font-semibold text-secondary">
-            Farmácia em Sobral - CE
-          </p>
-          <h1 className="font-heading text-4xl font-bold leading-tight text-foreground sm:text-5xl">
-            Saúde e bem-estar com quem cuida de você de perto
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-foreground/70">
-            {/* Descrição curta institucional — será ajustada com o material real fornecido pelo cliente. */}
-            A {empresa.nome} oferece atendimento farmacêutico próximo, produtos de
-            qualidade e orientação de confiança para o seu dia a dia.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={whatsappHref ?? "#contato"}
-              target={whatsappHref ? "_blank" : undefined}
-              rel={whatsappHref ? "noopener noreferrer" : undefined}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-            >
-              <MessageCircle className="h-5 w-5" aria-hidden="true" />
-              Falar no WhatsApp
-            </a>
-            <a
-              href="#localizacao"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-base font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              <MapPin className="h-5 w-5" aria-hidden="true" />
-              Como chegar
+        <div className="hidden grid-rows-2 gap-5 lg:grid">
+          <a
+            href={linkPedidoGeral()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex overflow-hidden rounded-2xl bg-noite p-5 text-white shadow-1 transition duration-300 ease-curva hover:-translate-y-1 hover:shadow-3"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/images/entrega-balcao.webp")}
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover opacity-35 transition-transform duration-500 group-hover:scale-105"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-noite via-noite/70 to-noite/20" />
+            <span className="relative mt-auto">
+              <Truck className="h-7 w-7 text-white transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+              <span className="mt-2 block font-display text-[22px] font-bold leading-tight">{ENTREGA_GRATIS.curto}</span>
+              <span className="rotulo mt-2 block text-[13px] text-white/80">Pedir pelo WhatsApp →</span>
+            </span>
+          </a>
+
+          <div className="flex flex-col rounded-2xl border border-linha bg-cartao p-5 shadow-1">
+            <Clock className="h-7 w-7 text-azul" aria-hidden="true" />
+            <p className="mt-2 font-display text-[22px] font-bold leading-tight text-texto">Aberto todos os dias</p>
+            <ul className="mt-2 space-y-0.5 text-[14px] text-texto-suave">
+              {empresa.horarioFuncionamento.map((h) => (
+                <li key={h.dias}>
+                  {h.dias}: <span className="font-semibold text-texto">{h.horario}</span>
+                </li>
+              ))}
+            </ul>
+            <a href="#localizacao" className="rotulo link-sublinhado mt-auto inline-flex items-center gap-1 self-start pt-3 text-[13px] text-azul">
+              <MapPin className="h-4 w-4" aria-hidden="true" /> Como chegar
             </a>
           </div>
         </div>
-
-        {imagemPrincipal ? (
-          /* Composição com as duas fotos reais da farmácia: a fachada como
-             imagem principal e a farmacêutica responsável em destaque
-             sobreposto, no formato de um cartão com legenda.
-             <img> em vez de next/image: o site é exportado como estático
-             (images.unoptimized). */
-          <div className="relative mx-auto w-full max-w-md lg:ml-auto lg:mr-0 lg:max-w-[520px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={asset(imagemPrincipal.src)}
-              alt={imagemPrincipal.alt}
-              className="aspect-[4/5] w-full rounded-2xl border border-border object-cover object-top shadow-xl"
-            />
-
-            {imagemSecundaria && (
-              <figure className="absolute bottom-5 left-0 w-32 overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-border sm:w-40 lg:-left-10 lg:w-44">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={asset(imagemSecundaria.src)}
-                  alt={imagemSecundaria.alt}
-                  className="aspect-[3/4] w-full object-cover object-[50%_28%]"
-                />
-                {imagemSecundaria.legenda && (
-                  <figcaption className="px-3 py-2.5">
-                    <span className="block text-xs font-semibold text-foreground">
-                      {imagemSecundaria.legenda.titulo}
-                    </span>
-                    <span className="mt-0.5 block text-[11px] leading-snug text-foreground/60">
-                      {imagemSecundaria.legenda.papel}
-                    </span>
-                  </figcaption>
-                )}
-              </figure>
-            )}
-          </div>
-        ) : (
-          <div className="rounded-xl border border-border bg-card p-8">
-            <h2 className="font-heading text-lg font-semibold text-foreground">
-              Estamos abertos para você
-            </h2>
-
-            <div className="mt-6 flex items-start gap-3">
-              <Clock className="mt-1 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-              <ul className="text-foreground/80">
-                {empresa.horarioFuncionamento.map((item) => (
-                  <li key={item.dias}>
-                    <span className="font-medium">{item.dias}</span>: {item.horario}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-4 flex items-start gap-3 border-t border-border pt-4">
-              <MapPin className="mt-1 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-              <p className="text-foreground/80">{empresa.endereco.completo}</p>
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

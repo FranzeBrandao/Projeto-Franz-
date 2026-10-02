@@ -15,7 +15,7 @@ export function Servicos() {
   return (
     <section
       id="servicos"
-      className="textura-cruz border-y border-ink-line bg-ink py-16 md:py-24"
+      className="textura-cruz border-y border-white/10 bg-noite py-16 md:py-24"
     >
       <div className="container-page">
         <TituloSecao
@@ -29,15 +29,16 @@ export function Servicos() {
           {SERVICOS.map(({ icon: Icon, nome }) => (
             <li
               key={nome}
-              className="flex items-center gap-4 bg-ink px-6 py-7 lg:flex-col lg:items-start lg:gap-5 lg:px-6 lg:py-8"
+              data-revelar
+              className="group flex items-center gap-4 bg-noite px-6 py-7 lg:flex-col lg:items-start lg:gap-5 lg:px-6 lg:py-8"
             >
               <span
                 aria-hidden="true"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-azul-logo transition-transform duration-300 group-hover:-translate-y-1"
               >
-                <Icon className="h-5 w-5 text-primary-foreground" />
+                <Icon className="h-5 w-5 text-white" />
               </span>
-              <h3 className="font-heading text-base font-semibold leading-snug text-ink-foreground">
+              <h3 className="font-display text-base font-semibold leading-snug text-white">
                 {nome}
               </h3>
             </li>
@@ -50,7 +51,7 @@ export function Servicos() {
               href={empresa.ifood.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-sm font-semibold text-ink-foreground transition-colors hover:border-white/60 hover:bg-white/5"
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/5"
             >
               <ShoppingBag className="h-4 w-4" aria-hidden="true" />
               Peça também pelo iFood
@@ -58,9 +59,9 @@ export function Servicos() {
           )}
 
           {empresa.convenios.length > 0 && (
-            <p className="text-sm text-ink-muted">
+            <p className="text-sm text-white/70">
               Conveniado com{" "}
-              <span className="font-semibold text-ink-foreground">
+              <span className="font-semibold text-white">
                 {empresa.convenios.join(" e ")}
               </span>
               .

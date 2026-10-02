@@ -8,32 +8,32 @@ export function Localizacao() {
   const mapaEmbedHref = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 
   return (
-    <section id="localizacao" className="border-y border-border bg-muted/50 py-16 md:py-24">
+    <section id="localizacao" className="border-y border-linha bg-gelo/50 py-16 md:py-24">
       <div className="container-page grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
         <div>
           <TituloSecao etiqueta="Gerardo Cristino, Sobral" titulo="Localização" />
 
           <dl className="mt-8 space-y-5">
             <div className="flex items-start gap-3.5">
-              <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+              <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/45">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
                   Endereço
                 </dt>
-                <dd className="mt-1 text-foreground/80">{empresa.endereco.completo}</dd>
+                <dd className="mt-1 text-texto-suave">{empresa.endereco.completo}</dd>
               </div>
             </div>
 
             <div className="flex items-start gap-3.5">
-              <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+              <Phone className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/45">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
                   Telefone
                 </dt>
                 <dd className="mt-1">
                   <a
                     href={`tel:${empresa.telefone.e164}`}
-                    className="text-foreground/80 underline-offset-4 hover:text-primary hover:underline"
+                    className="text-texto-suave underline-offset-4 hover:text-azul hover:underline"
                   >
                     {empresa.telefone.exibicao}
                   </a>
@@ -42,12 +42,12 @@ export function Localizacao() {
             </div>
 
             <div className="flex items-start gap-3.5">
-              <Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+              <Clock className="mt-0.5 h-5 w-5 shrink-0 text-azul" aria-hidden="true" />
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/45">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-texto-suave">
                   Horário
                 </dt>
-                <dd className="mt-1 text-foreground/80">
+                <dd className="mt-1 text-texto-suave">
                   {empresa.horarioFuncionamento.map((item) => (
                     <span key={item.dias} className="block">
                       <span className="font-medium">{item.dias}:</span> {item.horario}
@@ -62,14 +62,14 @@ export function Localizacao() {
             href={comoChegarHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+            className="mt-9 inline-flex items-center gap-2 rounded-full bg-azul px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-azul-hover"
           >
             <Navigation className="h-5 w-5" aria-hidden="true" />
             Como chegar
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-2xl shadow-sm ring-1 ring-border">
+        <div className="overflow-hidden rounded-2xl shadow-sm ring-1 ring-linha">
           <iframe
             title={`Mapa de localização da ${empresa.nome}`}
             src={mapaEmbedHref}

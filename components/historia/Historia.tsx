@@ -23,12 +23,12 @@ export function Historia() {
             {historia.marcos.map((marco) => (
               <li
                 key={`${marco.ano}-${marco.texto}`}
-                className="rounded-2xl bg-card p-7 shadow-sm ring-1 ring-border"
+                className="rounded-2xl bg-cartao p-7 shadow-sm ring-1 ring-linha"
               >
-                <span className="font-heading text-4xl font-bold tracking-tight text-primary">
+                <span className="font-display text-4xl font-bold tracking-tight text-azul">
                   {marco.ano}
                 </span>
-                <p className="mt-3 leading-relaxed text-foreground/70">{marco.texto}</p>
+                <p className="mt-3 leading-relaxed text-texto-suave">{marco.texto}</p>
               </li>
             ))}
           </ol>

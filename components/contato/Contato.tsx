@@ -47,7 +47,7 @@ export function Contato() {
   return (
     <section
       id="contato"
-      className="textura-cruz border-t border-ink-line bg-ink py-16 md:py-24"
+      className="textura-cruz border-t border-white/10 bg-noite py-16 md:py-24"
     >
       <div className="container-page">
         <TituloSecao
@@ -66,24 +66,24 @@ export function Contato() {
               rel={externo ? "noopener noreferrer" : undefined}
               className={
                 destaque
-                  ? "group rounded-2xl bg-primary p-6 transition-colors hover:bg-primary-hover"
+                  ? "group rounded-2xl bg-azul p-6 transition-colors hover:bg-azul-hover"
                   : "group rounded-2xl bg-white/[0.06] p-6 ring-1 ring-white/10 transition-colors hover:bg-white/[0.11]"
               }
             >
               <Icon
-                className={`h-6 w-6 ${destaque ? "text-primary-foreground" : "text-white/55"}`}
+                className={`h-6 w-6 ${destaque ? "text-white" : "text-white/55"}`}
                 aria-hidden="true"
               />
               <span
-                className={`mt-5 block font-heading font-semibold ${
-                  destaque ? "text-primary-foreground" : "text-ink-foreground"
+                className={`mt-5 block font-display font-semibold ${
+                  destaque ? "text-white" : "text-white"
                 }`}
               >
                 {titulo}
               </span>
               <span
                 className={`mt-1 block break-words text-[13px] ${
-                  destaque ? "text-primary-foreground/80" : "text-ink-muted"
+                  destaque ? "text-white/80" : "text-white/70"
                 }`}
               >
                 {valor}
