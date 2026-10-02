@@ -73,6 +73,10 @@ export const galeria: Array<{ src: string; alt: string }> = [
     alt: "Atendimento na Farmácia Bem Estar",
   },
   {
+    src: "/images/balcao-equipe.webp",
+    alt: "Equipe e farmacêutica atendendo no balcão da Farmácia Bem Estar",
+  },
+  {
     src: "/images/perfuracao-orelha.webp",
     alt: "Serviço de perfuração de orelha na Farmácia Bem Estar",
   },
@@ -87,30 +91,5 @@ export const galeria: Array<{ src: string; alt: string }> = [
   {
     src: "/images/inauguracao-2019.webp",
     alt: "Inauguração da Farmácia Bem Estar, em 11 de fevereiro de 2019, com familiares e amigos",
-  },
-];
-
-/**
- * Fotos de destaque do topo da página: a fachada da loja e a
- * farmacêutica proprietária. Enquanto a lista estiver vazia, o topo
- * mostra um cartão com horário e endereço no lugar — nunca uma imagem
- * genérica fingindo ser a loja.
- *
- * A primeira foto é a principal (aparece maior); a segunda entra como
- * destaque secundário sobreposto.
- */
-export const heroImagens: Array<{
-  src: string;
-  alt: string;
-  legenda?: { titulo: string; papel: string };
-}> = [
-  {
-    src: "/images/fachada-frente.webp",
-    alt: "Fachada da Farmácia Bem Estar, na Av. Sen. Fernandes Távora, em Sobral - CE",
-  },
-  {
-    src: "/images/kamila-proprietaria.webp",
-    alt: "Kamila Soares Balreira, farmacêutica responsável e proprietária da Farmácia Bem Estar",
-    legenda: { titulo: "Kamila Balreira", papel: "Farmacêutica responsável e proprietária" },
   },
 ];
