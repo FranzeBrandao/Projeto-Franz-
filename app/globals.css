@@ -26,8 +26,8 @@
   --texto-suave-rgb: 74 85 120;     /* #4A5578 */
 
   /* Funcionais */
-  --whatsapp-rgb: 18 140 74;        /* #128C4A */
-  --whatsapp-hover-rgb: 12 110 57;  /* #0C6E39 */
+  --whatsapp-rgb: 15 128 68;        /* #0F8044 — 5:1 com texto branco */
+  --whatsapp-hover-rgb: 10 99 50;   /* #0A6332 */
   --indisponivel-rgb: 138 147 173;  /* #8A93AD */
   --aviso-rgb: 255 244 214;         /* #FFF4D6 */
   --aviso-borda-rgb: 232 185 49;    /* #E8B931 */
@@ -57,10 +57,6 @@
   h3 {
     @apply font-display;
     text-wrap: balance;
-  }
-
-  p {
-    text-wrap: pretty;
   }
 
   :focus-visible {
@@ -200,8 +196,9 @@
   to { opacity: 1; transform: none; }
 }
 @keyframes pulso-whatsapp {
-  0%, 86%, 100% { box-shadow: 0 0 0 0 rgb(var(--whatsapp-rgb) / .45), var(--sombra-3); }
-  93% { box-shadow: 0 0 0 14px rgb(var(--whatsapp-rgb) / 0), var(--sombra-3); }
+  0%, 84% { opacity: 0; transform: scale(1); }
+  86% { opacity: .5; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.45); }
 }
 @keyframes giro-cruz {
   0% { transform: rotate(0); }
@@ -215,7 +212,18 @@
 
 .animar-ken-burns { animation: ken-burns 6.5s linear both; }
 .animar-palavra { display: inline-block; animation: palavra-sobe .5s var(--curva) both; }
-.animar-pulso { animation: pulso-whatsapp 8s ease-out infinite; }
+/* Pulso do botão flutuante: um anel por trás que cresce e some —
+   só transform/opacity, sem redesenhar a página. */
+.animar-pulso::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: rgb(var(--whatsapp-rgb));
+  animation: pulso-whatsapp 8s ease-out infinite;
+  pointer-events: none;
+}
 .animar-giro { animation: giro-cruz .6s var(--curva); }
 .animar-letreiro { animation: letreiro 22s linear infinite; }
 

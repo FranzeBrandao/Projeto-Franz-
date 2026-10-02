@@ -19,6 +19,14 @@ const INTERVALO = 6000;
  */
 export function HeroCarrossel({ banners, hrefs }: { banners: Banner[]; hrefs: string[] }) {
   const [ativo, setAtivo] = useState(0);
+  // Slides cuja foto já pode ser baixada: só o primeiro na abertura (a foto
+  // que o Google mede como "maior conteúdo"); os outros entram pouco antes
+  // de aparecer, para não disputar a internet do celular com o primeiro.
+  const [prontos, setProntos] = useState<number[]>([0]);
+  const preparar = useCallback(
+    (i: number) => setProntos((atual) => (atual.includes(i) ? atual : [...atual, i])),
+    [],
+  );
   const [pausadoUsuario, setPausadoUsuario] = useState(false);
   const [pausadoInteracao, setPausadoInteracao] = useState(false);
   // Lido direto do sistema na primeira renderização no navegador
@@ -28,7 +36,14 @@ export function HeroCarrossel({ banners, hrefs }: { banners: Banner[]; hrefs: st
   const inicioToque = useRef<number | null>(null);
   const total = banners.length;
 
-  const ir = useCallback((i: number) => setAtivo((i + total) % total), [total]);
+  const ir = useCallback(
+    (i: number) => {
+      const destino = (i + total) % total;
+      preparar(destino);
+      setAtivo(destino);
+    },
+    [total, preparar],
+  );
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -47,10 +62,15 @@ export function HeroCarrossel({ banners, hrefs }: { banners: Banner[]; hrefs: st
   const girando = !pausadoUsuario && !pausadoInteracao && !movimentoReduzido;
 
   useEffect(() => {
-    if (!girando) return;
+    // Baixa a foto do próximo slide 2s depois da abertura de cada slide
+    const pre = window.setTimeout(() => preparar((ativo + 1) % total), 2000);
+    if (!girando) return () => window.clearTimeout(pre);
     const t = window.setTimeout(() => ir(ativo + 1), INTERVALO);
-    return () => window.clearTimeout(t);
-  }, [ativo, girando, ir]);
+    return () => {
+      window.clearTimeout(pre);
+      window.clearTimeout(t);
+    };
+  }, [ativo, girando, ir, preparar, total]);
 
   return (
     <section
@@ -91,24 +111,26 @@ export function HeroCarrossel({ banners, hrefs }: { banners: Banner[]; hrefs: st
             >
               {/* Foto: em cima no celular, à direita no computador */}
               <div className="relative aspect-[16/10] overflow-hidden md:order-2 md:aspect-auto md:min-h-[380px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={asset(b.imagem.srcMenor ?? b.imagem.src)}
-                  srcSet={
-                    b.imagem.srcMenor
-                      ? `${asset(b.imagem.srcMenor)} 720w, ${asset(b.imagem.src)} 1400w`
-                      : undefined
-                  }
-                  sizes="(min-width: 1024px) 420px, (min-width: 768px) 45vw, 100vw"
-                  alt={b.imagem.alt}
-                  width={720}
-                  height={900}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : "auto"}
-                  decoding="async"
-                  style={{ objectPosition: b.imagem.posicao ?? "50% 50%" }}
-                  className={`absolute inset-0 h-full w-full object-cover ${eAtivo ? "animar-ken-burns" : ""}`}
-                />
+                {prontos.includes(i) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={asset(b.imagem.srcMenor ?? b.imagem.src)}
+                    srcSet={
+                      b.imagem.srcMenor
+                        ? `${asset(b.imagem.srcMenor)} 720w, ${asset(b.imagem.src)} ${b.imagem.largura ?? 1400}w`
+                        : undefined
+                    }
+                    sizes="(min-width: 1024px) 420px, (min-width: 768px) 45vw, calc(100vw - 32px)"
+                    alt={b.imagem.alt}
+                    width={720}
+                    height={900}
+                    loading="eager"
+                    fetchPriority={i === 0 ? "high" : "auto"}
+                    decoding="async"
+                    style={{ objectPosition: b.imagem.posicao ?? "50% 50%" }}
+                    className={`absolute inset-0 h-full w-full object-cover ${eAtivo ? "animar-ken-burns" : ""}`}
+                  />
+                )}
                 {/* Funde a foto no azul do painel de texto */}
                 <span
                   aria-hidden="true"

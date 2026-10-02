@@ -75,7 +75,7 @@ export function Contato() {
                 aria-hidden="true"
               />
               <span
-                className={`mt-5 block font-display font-semibold ${
+                className={`mt-5 block font-display font-bold ${
                   destaque ? "text-white" : "text-white"
                 }`}
               >

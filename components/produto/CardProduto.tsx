@@ -29,7 +29,7 @@ export function CardProduto({ produto, prioridade = false }: { produto: Produto;
           Indisponível
         </span>
       ) : desconto > 0 ? (
-        <span className="rotulo absolute left-3 top-3 z-[1] rounded-md bg-vermelho px-2 py-1 text-[12px] font-bold text-white">
+        <span className="rotulo absolute left-3 top-3 z-[1] rounded-md bg-vermelho px-2 py-1 text-[12px] text-white">
           -{desconto}%
         </span>
       ) : null}

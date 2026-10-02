@@ -6,14 +6,17 @@ import { AvisoMedicamentos } from "@/components/produto/AvisoMedicamentos";
 import { IconeCategoria } from "@/components/produto/IconeCategoria";
 
 /** Categorias que ganham prateleira própria na página inicial. */
-const PRATELEIRAS_HOME = ["medicamentos", "fraldas", "dermocosmeticos", "vitaminas-e-suplementos"];
+const PRATELEIRAS_HOME = ["medicamentos", "fraldas", "dermocosmeticos"];
+
+/** Quantos produtos entram em "Ofertas da semana" (o resto fica nas categorias). */
+const MAX_OFERTAS = 8;
 
 /**
  * Vitrine da página inicial: "Ofertas da semana" e uma prateleira por
  * categoria escolhida acima. Tudo vem de content/produtos.json.
  */
 export function Vitrine() {
-  const ofertas = produtosEmOferta();
+  const ofertas = produtosEmOferta().slice(0, MAX_OFERTAS);
   const temMedicamentoNasOfertas = ofertas.some((p) => p.categoria === "medicamentos");
 
   return (

@@ -12,21 +12,21 @@ import { Efeitos } from "@/components/efeitos/Efeitos";
 // (não dependem do Google na hora de abrir a página).
 const zillaSlab = Zilla_Slab({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: "700",
   variable: "--fonte-display",
   display: "swap",
 });
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: "600",
   variable: "--fonte-rotulo",
   display: "swap",
 });
 
+// Figtree é uma fonte variável: um arquivo só cobre todos os pesos
 const figtree = Figtree({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--fonte-texto",
   display: "swap",
 });

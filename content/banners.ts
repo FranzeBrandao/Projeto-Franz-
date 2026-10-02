@@ -13,7 +13,8 @@ export interface Banner {
   texto: string;
   botao: string;
   link: string;
-  imagem: { src: string; srcMenor?: string; alt: string; posicao?: string };
+  /** largura: largura real (px) da foto grande, para o navegador escolher o tamanho certo. */
+  imagem: { src: string; srcMenor?: string; largura?: number; alt: string; posicao?: string };
 }
 
 export const banners: Banner[] = [
@@ -26,6 +27,7 @@ export const banners: Banner[] = [
     imagem: {
       src: "/images/fachada-frente.webp",
       srcMenor: "/images/fachada-frente-720.webp",
+      largura: 1200,
       alt: "Fachada da Farmácia Bem Estar, na Av. Sen. Fernandes Távora, em Sobral",
       posicao: "50% 40%",
     },
@@ -51,6 +53,7 @@ export const banners: Banner[] = [
     imagem: {
       src: "/images/kamila-proprietaria.webp",
       srcMenor: "/images/kamila-proprietaria-720.webp",
+      largura: 900,
       alt: "Kamila Soares Balreira, farmacêutica responsável da Farmácia Bem Estar",
       posicao: "50% 25%",
     },

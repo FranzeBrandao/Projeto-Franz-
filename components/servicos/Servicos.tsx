@@ -38,7 +38,7 @@ export function Servicos() {
               >
                 <Icon className="h-5 w-5 text-white" />
               </span>
-              <h3 className="font-display text-base font-semibold leading-snug text-white">
+              <h3 className="font-display text-base font-bold leading-snug text-white">
                 {nome}
               </h3>
             </li>

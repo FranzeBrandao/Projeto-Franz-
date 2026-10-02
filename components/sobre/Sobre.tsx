@@ -28,7 +28,7 @@ export function Sobre() {
                   <path d="M21 4h14v17h17v14H35v17H21V35H4V21h17z" fill="currentColor" />
                 </svg>
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-texto">
+                  <h3 className="font-display text-lg font-bold text-texto">
                     {titulo}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-texto-suave">{texto}</p>
