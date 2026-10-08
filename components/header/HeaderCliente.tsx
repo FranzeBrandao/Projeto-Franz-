@@ -47,12 +47,16 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
   const gaveta = useRef<HTMLDivElement>(null);
   const botaoGaveta = useRef<HTMLButtonElement>(null);
 
-  // Header encolhe depois de 80px de rolagem (verificado a cada frame, no máximo)
+  // Header encolhe ao rolar (verificado a cada frame, no máximo)
   useEffect(() => {
     let agendado = false;
     function verificar() {
       agendado = false;
-      setCompacto(window.scrollY > 80);
+      // Encolhe depois de 120px e só volta ao normal abaixo de 40px. A folga
+      // (80px) precisa ser maior que o quanto o topo encolhe (até 48px): ao
+      // encolher, a página sobe e a rolagem diminui; com um limite só, o topo
+      // ficava abrindo e fechando sem parar ("tremendo").
+      setCompacto((atual) => (atual ? window.scrollY > 40 : window.scrollY > 120));
     }
     function aoRolar() {
       if (!agendado) {
