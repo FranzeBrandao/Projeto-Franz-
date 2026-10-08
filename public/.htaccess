@@ -2,6 +2,14 @@
 # Este arquivo é copiado automaticamente para `out/` no build e deve ir
 # junto com o restante dos arquivos para o public_html.
 
+# A Hostinger guarda o controle de versão (.git) dentro de public_html:
+# essa pasta nunca pode ser aberta pelo navegador. O mesmo vale para o
+# arquivo de controle do envio do catálogo (/catalogo/.ftp-deploy-sync-state.json).
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.git(/|$)
+  RedirectMatch 404 /\.ftp-deploy-sync-state\.json$
+</IfModule>
+
 # Página de erro personalizada
 ErrorDocument 404 /404.html
 
