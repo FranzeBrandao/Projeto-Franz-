@@ -11,6 +11,8 @@ interface Empresa {
   nome: string;
   razaoSocial: string;
   cnpj: string;
+  /** Número da licença sanitária (alvará). "[CONFIRMAR]" até o cliente informar. */
+  licencaSanitaria: string;
   farmaceuticaResponsavel: {
     nome: string;
     crf: string;
@@ -59,6 +61,7 @@ export const empresa: Empresa = {
   nome: "Farmácia Bem Estar",
   razaoSocial: "Farmácia Bem Estar LTDA",
   cnpj: "30.080.921/0001-72",
+  licencaSanitaria: "[CONFIRMAR]",
 
   farmaceuticaResponsavel: {
     nome: "Kamila Soares Balreira",

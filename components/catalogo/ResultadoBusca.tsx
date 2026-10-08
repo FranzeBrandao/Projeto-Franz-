@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { categorias } from "@/content/categorias";
-import type { Produto } from "@/lib/produtos";
+import { CarregandoProdutos, ErroProdutos } from "@/components/dados/EstadoProdutos";
+import { useProdutos } from "@/components/dados/ProdutosProvider";
 import { GradeProdutos } from "./GradeProdutos";
 
 /** Remove acentos e deixa minúsculo: "Ômega" → "omega". */
@@ -15,15 +16,16 @@ const normalizar = (t: string) =>
  * Busca no navegador: procura o texto no nome, marca, subcategoria e
  * categoria. Cada palavra digitada precisa aparecer em algum desses campos.
  */
-export function ResultadoBusca({ produtos }: { produtos: Produto[] }) {
+export function ResultadoBusca() {
   const termo = useSearchParams().get("q") ?? "";
+  const { status, visiveis: produtos } = useProdutos();
 
   const lista = useMemo(() => {
     const palavras = normalizar(termo).split(/\s+/).filter(Boolean);
     if (palavras.length === 0) return [];
     return produtos.filter((p) => {
       const nomeCategoria = categorias.find((c) => c.slug === p.categoria)?.nome ?? "";
-      const texto = normalizar(`${p.nome} ${p.marca} ${p.subcategoria} ${nomeCategoria} ${p.apresentacao}`);
+      const texto = normalizar(`${p.nome} ${p.marca} ${p.subcategoria} ${nomeCategoria} ${p.apresentacao} ${p.ean}`);
       return palavras.every((w) => texto.includes(w));
     });
   }, [produtos, termo]);
@@ -33,7 +35,7 @@ export function ResultadoBusca({ produtos }: { produtos: Produto[] }) {
       <h1 className="text-[28px] font-bold leading-tight sm:text-[36px]">
         {termo ? <>Resultados para “{termo}”</> : "Buscar produtos"}
       </h1>
-      {termo && (
+      {termo && status === "ok" && (
         <p className="mt-1 text-[15px] text-texto-suave" aria-live="polite">
           {lista.length} {lista.length === 1 ? "produto encontrado" : "produtos encontrados"}
         </p>
@@ -55,7 +57,11 @@ export function ResultadoBusca({ produtos }: { produtos: Produto[] }) {
       </form>
 
       <div className="mt-8">
-        {lista.length > 0 ? (
+        {status === "carregando" ? (
+          <CarregandoProdutos />
+        ) : status === "erro" ? (
+          <ErroProdutos />
+        ) : lista.length > 0 ? (
           <GradeProdutos produtos={lista} colunasLargas />
         ) : (
           <div className="rounded-2xl border border-dashed border-linha bg-cartao px-6 py-12 text-center">

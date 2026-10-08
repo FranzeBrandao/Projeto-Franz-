@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/header/Header";
@@ -6,10 +5,9 @@ import { Footer } from "@/components/footer/Footer";
 import { Trilha } from "@/components/ui/Trilha";
 import { AvisoMedicamentos } from "@/components/produto/AvisoMedicamentos";
 import { IconeCategoria } from "@/components/produto/IconeCategoria";
-import { Catalogo, CatalogoComUrl } from "@/components/catalogo/Catalogo";
+import { ListaCategoria } from "@/components/catalogo/ListaCategoria";
 import { buscarCategoria, categorias } from "@/content/categorias";
 import { empresa } from "@/content/empresa";
-import { produtosDaCategoria } from "@/lib/produtos";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,7 +33,6 @@ export default async function CategoriaPage({ params }: Props) {
   const categoria = buscarCategoria(slug);
   if (!categoria) notFound();
 
-  const lista = produtosDaCategoria(slug);
   const ehMedicamento = slug === "medicamentos";
 
   return (
@@ -57,11 +54,8 @@ export default async function CategoriaPage({ params }: Props) {
         {ehMedicamento && <AvisoMedicamentos className="mt-6" />}
 
         <div className="mt-7">
-          {/* O HTML já sai com todos os produtos (bom para o Google); no
-              navegador, o filtro lê a subcategoria do endereço. */}
-          <Suspense fallback={<Catalogo produtos={lista} />}>
-            <CatalogoComUrl produtos={lista} />
-          </Suspense>
+          {/* Os produtos vêm de /catalogo/produtos.json, lido no navegador */}
+          <ListaCategoria slug={slug} nome={categoria.nome} />
         </div>
 
         {ehMedicamento && <AvisoMedicamentos className="mt-12" />}

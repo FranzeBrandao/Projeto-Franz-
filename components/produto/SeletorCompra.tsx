@@ -3,23 +3,15 @@
 import { useState } from "react";
 import { Minus, MessageCircle, Plus } from "lucide-react";
 import { linkPedidoWhatsapp, WHATSAPP_PEDIDOS_EXIBICAO } from "@/content/pedidos";
-import { emReais } from "@/lib/produtos";
+import { emReais, precoFinal, type Produto } from "@/lib/produtos";
 
 /**
- * Quantidade (− 1 +) e botão "Comprar pelo WhatsApp" da página do produto.
+ * Quantidade (− 1 +) e botão "Pedir pelo WhatsApp" da página do produto.
  * A mensagem pronta já leva a quantidade escolhida.
  */
-export function SeletorCompra({
-  nome,
-  apresentacao,
-  preco,
-  estoque,
-}: {
-  nome: string;
-  apresentacao: string;
-  preco: number;
-  estoque: number;
-}) {
+export function SeletorCompra({ produto }: { produto: Produto }) {
+  const preco = precoFinal(produto);
+  const estoque = produto.estoque;
   const maximo = Math.max(1, Math.min(estoque, 20));
   const [quantidade, setQuantidade] = useState(1);
   const mudar = (delta: number) => setQuantidade((q) => Math.min(maximo, Math.max(1, q + delta)));
@@ -58,14 +50,21 @@ export function SeletorCompra({
       </div>
 
       <a
-        href={linkPedidoWhatsapp({ nome, apresentacao, preco, quantidade })}
+        href={linkPedidoWhatsapp({
+          nome: produto.nome,
+          marca: produto.marca,
+          ean: produto.ean,
+          preco: produto.preco,
+          precoPromocional: produto.preco_promocional,
+          quantidade,
+        })}
         target="_blank"
         rel="noopener noreferrer"
         data-pedido
         className="btn btn-whatsapp mt-4 w-full min-h-14 text-[16px] sm:w-auto sm:px-8"
       >
         <MessageCircle className="icone-toque h-5 w-5" aria-hidden="true" />
-        <span className="rotulo-normal">Comprar pelo WhatsApp</span>
+        <span className="rotulo-normal">Pedir pelo WhatsApp</span>
         <span className="rotulo-enviado">Abrindo WhatsApp…</span>
       </a>
       <p className="mt-2 text-[13px] text-texto-suave">

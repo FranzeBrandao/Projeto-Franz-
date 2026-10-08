@@ -17,6 +17,8 @@ import {
 import { empresa } from "@/content/empresa";
 import { ENTREGA_GRATIS } from "@/content/loja";
 import { linkPedidoGeral, WHATSAPP_PEDIDOS_EXIBICAO } from "@/content/pedidos";
+import { useProdutos } from "@/components/dados/ProdutosProvider";
+import { emReais, hrefProduto, percentualDesconto, precoFinal, produtosDaCategoria } from "@/lib/produtos";
 import { asset } from "@/lib/asset";
 import { whatsappHref } from "@/lib/contato";
 import { IconeCategoria } from "@/components/produto/IconeCategoria";
@@ -24,8 +26,6 @@ import { IconeCategoria } from "@/components/produto/IconeCategoria";
 export interface CategoriaMenu {
   slug: string;
   nome: string;
-  subcategorias: string[];
-  destaques: Array<{ nome: string; apresentacao: string; preco: string; href: string }>;
 }
 
 const hrefCategoria = (slug: string, sub?: string) =>
@@ -106,6 +106,16 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
   }
 
   const categoriaAberta = menu.find((c) => c.slug === megaAberto);
+
+  // "Em destaque" do menu: os 2 produtos com maior desconto da categoria
+  // (ou os primeiros, se não houver promoção). Vêm do catálogo, no navegador.
+  const { visiveis } = useProdutos();
+  const destaquesAbertos = categoriaAberta
+    ? [...produtosDaCategoria(visiveis, categoriaAberta.slug)]
+        .sort((a, b) => percentualDesconto(b) - percentualDesconto(a))
+        .slice(0, 2)
+        .map((p) => ({ nome: p.nome, marca: p.marca, preco: emReais(precoFinal(p)), href: hrefProduto(p) }))
+    : [];
 
   return (
     <>
@@ -245,18 +255,6 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
                     <IconeCategoria slug={categoriaAberta.slug} className="h-4 w-4" />
                     {categoriaAberta.nome}
                   </p>
-                  <ul className="mt-3 space-y-1">
-                    {categoriaAberta.subcategorias.map((sub) => (
-                      <li key={sub}>
-                        <a
-                          href={hrefCategoria(categoriaAberta.slug, sub)}
-                          className="link-sublinhado inline-block py-1.5 text-[15px] text-texto hover:text-azul"
-                        >
-                          {sub}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
                   <a
                     href={hrefCategoria(categoriaAberta.slug)}
                     className="rotulo mt-4 inline-flex items-center gap-1 text-[14px] text-azul hover:underline"
@@ -268,8 +266,11 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
 
                 <div>
                   <p className="rotulo text-[13px] text-texto-suave">Em destaque</p>
+                  {destaquesAbertos.length === 0 && (
+                    <p className="mt-3 text-[14px] text-texto-suave">Novidades em breve nesta categoria.</p>
+                  )}
                   <ul className="mt-3 space-y-3">
-                    {categoriaAberta.destaques.map((p) => (
+                    {destaquesAbertos.map((p) => (
                       <li key={p.href}>
                         <a
                           href={p.href}
@@ -280,7 +281,7 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
                           </span>
                           <span className="min-w-0 flex-1">
                             <span className="block truncate text-[15px] font-medium text-texto">{p.nome}</span>
-                            <span className="block text-[13px] text-texto-suave">{p.apresentacao}</span>
+                            <span className="block text-[13px] text-texto-suave">{p.marca}</span>
                           </span>
                           <span className="font-display text-lg font-bold text-azul">R$ {p.preco}</span>
                         </a>

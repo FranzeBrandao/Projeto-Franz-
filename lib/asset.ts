@@ -13,5 +13,7 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function asset(caminho: string): string {
+  // Endereço completo (foto que vem do catálogo): não leva prefixo
+  if (/^https?:\/\//.test(caminho)) return caminho;
   return `${basePath}${caminho}`;
 }

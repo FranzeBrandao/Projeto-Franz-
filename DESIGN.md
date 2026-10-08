@@ -382,7 +382,7 @@ presta atenção percebe.
 
 ## Anexo — estrutura técnica prevista
 
-- `content/produtos.json` — **único** arquivo com todos os produtos
+- `/catalogo/produtos.json` (do repositório catalogo-bem-estar) — fonte única dos produtos, lida no navegador por `components/dados/ProdutosProvider.tsx`
   (`ean, nome, marca, categoria, subcategoria, apresentacao, preco, preco_promocional, estoque, imagem, destaque`).
 - `content/pedidos.ts` — `WHATSAPP_PEDIDOS = "5588997269402"` e o modelo da mensagem.
 - Rotas estáticas: `/`, `/categoria/[slug]/`, `/produto/[slug]/`, `/compreaqui/`,

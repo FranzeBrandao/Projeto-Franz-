@@ -1,4 +1,5 @@
 import { MessageCircle } from "lucide-react";
+import { linkPedidoGeral } from "@/content/pedidos";
 import { whatsappHref } from "@/lib/contato";
 
 export function WhatsappFloat() {
@@ -6,7 +7,7 @@ export function WhatsappFloat() {
 
   return (
     <a
-      href={whatsappHref ?? "#contato"}
+      href={hasWhatsapp ? linkPedidoGeral() : "#contato"}
       aria-label="Falar no WhatsApp com a Farmácia Bem Estar"
       title={
         hasWhatsapp

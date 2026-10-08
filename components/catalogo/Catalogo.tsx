@@ -12,18 +12,19 @@ import {
 } from "@/lib/produtos";
 import { GradeProdutos } from "./GradeProdutos";
 
-type Ordem = "relevancia" | "menor-preco" | "maior-preco" | "maior-desconto";
+type Ordem = "relevancia" | "menor-preco" | "maior-preco" | "maior-desconto" | "a-z";
 
 const ORDENS: Array<{ valor: Ordem; texto: string }> = [
   { valor: "relevancia", texto: "Mais relevantes" },
   { valor: "menor-preco", texto: "Menor preço" },
   { valor: "maior-preco", texto: "Maior preço" },
   { valor: "maior-desconto", texto: "Maior desconto" },
+  { valor: "a-z", texto: "Nome (A–Z)" },
 ];
 
 /**
  * Listagem da categoria com filtro simples (DESIGN.md §5):
- * subcategoria, marca, só promoções, só disponíveis e ordenação.
+ * subcategoria, marca, faixa de preço, só promoções e ordenação.
  * No celular os filtros abrem numa gaveta que sobe de baixo.
  */
 export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; subInicial?: string }) {
@@ -33,7 +34,8 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
   const [sub, setSub] = useState(subcategorias.includes(subInicial) ? subInicial : "");
   const [marcasEscolhidas, setMarcasEscolhidas] = useState<string[]>([]);
   const [soPromocao, setSoPromocao] = useState(false);
-  const [soDisponiveis, setSoDisponiveis] = useState(false);
+  const [precoMin, setPrecoMin] = useState("");
+  const [precoMax, setPrecoMax] = useState("");
   const [ordem, setOrdem] = useState<Ordem>("relevancia");
   const [gavetaAberta, setGavetaAberta] = useState(false);
 
@@ -58,12 +60,15 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
   }, [gavetaAberta]);
 
   const lista = useMemo(() => {
+    const minimo = parseFloat(precoMin.replace(",", "."));
+    const maximo = parseFloat(precoMax.replace(",", "."));
     const filtrados = produtos.filter(
       (p) =>
         (!sub || p.subcategoria === sub) &&
         (marcasEscolhidas.length === 0 || marcasEscolhidas.includes(p.marca)) &&
         (!soPromocao || temPromocao(p)) &&
-        (!soDisponiveis || disponivel(p)),
+        (Number.isNaN(minimo) || precoFinal(p) >= minimo) &&
+        (Number.isNaN(maximo) || precoFinal(p) <= maximo),
     );
     const porOrdem: Record<Ordem, (a: Produto, b: Produto) => number> = {
       // Relevância: disponíveis primeiro, depois destaques
@@ -72,24 +77,26 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
       "menor-preco": (a, b) => precoFinal(a) - precoFinal(b),
       "maior-preco": (a, b) => precoFinal(b) - precoFinal(a),
       "maior-desconto": (a, b) => percentualDesconto(b) - percentualDesconto(a),
+      "a-z": (a, b) => a.nome.localeCompare(b.nome, "pt-BR"),
     };
     return [...filtrados].sort(porOrdem[ordem]);
-  }, [produtos, sub, marcasEscolhidas, soPromocao, soDisponiveis, ordem]);
+  }, [produtos, sub, marcasEscolhidas, soPromocao, precoMin, precoMax, ordem]);
 
-  const filtrosAtivos = marcasEscolhidas.length + Number(soPromocao) + Number(soDisponiveis);
+  const filtrosAtivos = marcasEscolhidas.length + Number(soPromocao) + Number(precoMin !== "") + Number(precoMax !== "");
 
   function limpar() {
     setSub("");
     setMarcasEscolhidas([]);
     setSoPromocao(false);
-    setSoDisponiveis(false);
+    setPrecoMin("");
+    setPrecoMax("");
   }
 
   const painelFiltros = (
     <div className="space-y-6">
       <fieldset>
         <legend className="rotulo text-[13px] text-texto-suave">Marca</legend>
-        <div className="mt-2 space-y-1">
+        <div className="mt-2 max-h-64 space-y-1 overflow-y-auto pr-1">
           {marcas.map((m) => (
             <Caixa
               key={m}
@@ -103,10 +110,17 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
         </div>
       </fieldset>
       <fieldset>
+        <legend className="rotulo text-[13px] text-texto-suave">Faixa de preço</legend>
+        <div className="mt-2 flex items-center gap-2">
+          <CampoPreco rotulo="Preço mínimo (R$)" placeholder="De" valor={precoMin} aoMudar={setPrecoMin} />
+          <span aria-hidden="true" className="text-texto-suave">–</span>
+          <CampoPreco rotulo="Preço máximo (R$)" placeholder="Até" valor={precoMax} aoMudar={setPrecoMax} />
+        </div>
+      </fieldset>
+      <fieldset>
         <legend className="rotulo text-[13px] text-texto-suave">Mostrar</legend>
         <div className="mt-2 space-y-1">
           <Caixa rotulo="Só promoções" marcado={soPromocao} aoMudar={setSoPromocao} />
-          <Caixa rotulo="Só disponíveis" marcado={soDisponiveis} aoMudar={setSoDisponiveis} />
         </div>
       </fieldset>
     </div>
@@ -241,6 +255,32 @@ export function CatalogoComUrl({ produtos }: { produtos: Produto[] }) {
   const params = useSearchParams();
   const sub = params.get("sub") ?? "";
   return <Catalogo key={sub} produtos={produtos} subInicial={sub} />;
+}
+
+function CampoPreco({
+  rotulo,
+  placeholder,
+  valor,
+  aoMudar,
+}: {
+  rotulo: string;
+  placeholder: string;
+  valor: string;
+  aoMudar: (v: string) => void;
+}) {
+  return (
+    <label className="min-w-0 flex-1">
+      <span className="sr-only">{rotulo}</span>
+      <input
+        type="text"
+        inputMode="decimal"
+        value={valor}
+        placeholder={placeholder}
+        onChange={(e) => aoMudar(e.target.value.replace(/[^\d.,]/g, ""))}
+        className="min-h-11 w-full rounded-xl border border-linha bg-cartao px-3 text-[15px] text-texto placeholder:text-texto-suave hover:border-azul/40 focus:border-azul"
+      />
+    </label>
+  );
 }
 
 function Caixa({ rotulo, marcado, aoMudar }: { rotulo: string; marcado: boolean; aoMudar: (v: boolean) => void }) {

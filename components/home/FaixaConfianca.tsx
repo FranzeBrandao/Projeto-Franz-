@@ -1,6 +1,6 @@
 import { Clock, Stethoscope, Truck } from "lucide-react";
 import { empresa } from "@/content/empresa";
-import { ENTREGA_GRATIS } from "@/content/loja";
+import { AVISO_ENTREGA, ENTREGA_GRATIS } from "@/content/loja";
 import { asset } from "@/lib/asset";
 
 /**
@@ -12,7 +12,7 @@ export function FaixaConfianca() {
     {
       icone: Truck,
       titulo: ENTREGA_GRATIS.curto,
-      texto: "Peça pelo WhatsApp e receba em casa.",
+      texto: `Peça pelo WhatsApp e receba em casa. ${AVISO_ENTREGA.curto}`,
       foto: "/images/entrega-balcao.webp",
       alt: "Atendente entregando um pedido no balcão da Farmácia Bem Estar",
     },

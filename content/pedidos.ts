@@ -16,38 +16,63 @@ export const WHATSAPP_PEDIDOS = "5588997269402";
 /** Nome do contato, usado em textos de apoio ("Seu pedido vai para..."). */
 export const NOME_CONTATO_PEDIDOS = "Pedido Farmácia Bem Estar";
 
-/**
- * Monta o link do WhatsApp com a mensagem pronta do pedido.
- * Ex.: "Olá! Vi no site e quero comprar: Dipirona 500mg - Caixa com
- * 10 comprimidos - R$ 9,90. Quantidade: 2."
- */
-export function linkPedidoWhatsapp(item: {
+/** Link de clique-para-conversar (wa.me). Sem API e sem custo por mensagem. */
+function linkWhatsapp(mensagem: string): string {
+  return `https://wa.me/${WHATSAPP_PEDIDOS}?text=${encodeURIComponent(mensagem)}`;
+}
+
+/** Dados do produto que entram nas mensagens. */
+export interface ItemPedido {
   nome: string;
-  apresentacao: string;
+  marca: string;
+  ean: string;
   preco: number;
-  quantidade: number;
-}): string {
-  const mensagem =
-    `Olá! Vi no site e quero comprar: ${item.nome} - ${item.apresentacao}` +
-    ` - R$ ${emReais(item.preco)}. Quantidade: ${item.quantidade}.`;
-  return `https://wa.me/${WHATSAPP_PEDIDOS}?text=${encodeURIComponent(mensagem)}`;
+  /** Só quando há promoção válida (menor que o preço normal). */
+  precoPromocional?: number | null;
+}
+
+/** "R$ 10,99" ou, em promoção, "de R$ 10,99 por R$ 8,99". */
+function textoPreco(item: ItemPedido): string {
+  const promo = item.precoPromocional;
+  if (promo != null && promo < item.preco) {
+    return `de R$ ${emReais(item.preco)} por R$ ${emReais(promo)}`;
+  }
+  return `R$ ${emReais(item.preco)}`;
 }
 
 /**
- * Link para produto sem estoque: o cliente pede para ser avisado quando
- * o produto chegar.
+ * Mensagem pronta do produto:
+ * "Olá! Quero pedir: Fralda X (Marca) - R$ 10,99. Código: 789..."
+ * (em promoção: "- de R$ 10,99 por R$ 8,99."). Com mais de 1 unidade,
+ * acrescenta " Quantidade: N.".
  */
-export function linkAviseMeWhatsapp(item: { nome: string; apresentacao: string }): string {
-  const mensagem =
-    `Olá! Vi no site que o produto ${item.nome} - ${item.apresentacao} está indisponível.` +
-    ` Pode me avisar quando chegar?`;
-  return `https://wa.me/${WHATSAPP_PEDIDOS}?text=${encodeURIComponent(mensagem)}`;
+export function linkPedidoWhatsapp(item: ItemPedido & { quantidade?: number }): string {
+  const marca = item.marca ? ` (${item.marca})` : "";
+  const quantidade = item.quantidade && item.quantidade > 1 ? ` Quantidade: ${item.quantidade}.` : "";
+  return linkWhatsapp(
+    `Olá! Quero pedir: ${item.nome}${marca} - ${textoPreco(item)}. Código: ${item.ean}.${quantidade}`,
+  );
 }
 
-/** Link geral de pedidos (botão do topo): conversa aberta, sem produto. */
+/** Produto sem estoque: o cliente pede para ser avisado quando chegar. */
+export function linkAviseMeWhatsapp(item: Pick<ItemPedido, "nome" | "marca" | "ean">): string {
+  const marca = item.marca ? ` (${item.marca})` : "";
+  return linkWhatsapp(
+    `Olá! O produto ${item.nome}${marca} está indisponível no site. Pode me avisar quando chegar? Código: ${item.ean}.`,
+  );
+}
+
+/** Medicamento ainda não liberado para compra no site: só consulta. */
+export function linkConsultaWhatsapp(item: Pick<ItemPedido, "nome" | "marca" | "ean">): string {
+  const marca = item.marca ? ` (${item.marca})` : "";
+  return linkWhatsapp(
+    `Olá! Gostaria de informações sobre: ${item.nome}${marca}. Código: ${item.ean}.`,
+  );
+}
+
+/** Link geral de pedidos (botão "Fazer pedido" do topo e botão flutuante). */
 export function linkPedidoGeral(): string {
-  const mensagem = "Olá! Vim pelo site e quero fazer um pedido.";
-  return `https://wa.me/${WHATSAPP_PEDIDOS}?text=${encodeURIComponent(mensagem)}`;
+  return linkWhatsapp("Olá! Gostaria de fazer um pedido.");
 }
 
 /** Número de pedidos formatado para exibir: (88) 99726-9402 */
