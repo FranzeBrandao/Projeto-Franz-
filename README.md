@@ -13,44 +13,45 @@ Hostinger. O padrão visual está em [`DESIGN.md`](DESIGN.md).
 | Endereço | O que é |
 |---|---|
 | `/` | Página inicial: banner, categorias, ofertas, prateleiras e a parte institucional |
-| `/categoria/<nome>/` | Uma página por categoria, com filtro (subcategoria, marca, promoção, disponíveis) |
-| `/produto/<nome>/` | Uma página por produto, com quantidade e "Comprar pelo WhatsApp" |
+| `/categoria/<nome>/` | Uma página por categoria, com filtros (marca, faixa de preço, promoção), ordenação e "Mostrar mais" |
+| `/produto/?e=<código de barras>` | Página do produto, com quantidade e "Pedir pelo WhatsApp" |
 | `/busca/?q=...` | Busca de produtos |
+| `/como-pedir-e-entregar/`, `/trocas-e-devolucoes/` | Como pedir pelo WhatsApp, entrega e trocas |
 | `/politica-privacidade/`, `/termos-de-uso/` | Páginas legais |
 | `/compreaqui/` | Link na bio (vem do repositório [Link-na-bio](https://github.com/FranzeBrandao/Link-na-bio), sem mudanças) |
-| `/sitemap.xml`, `/robots.txt` | Gerados sozinhos, já com categorias e produtos |
+| `/sitemap.xml`, `/robots.txt` | Gerados sozinhos, com as páginas e categorias (os produtos são lidos no navegador e ainda não entram no sitemap) |
 
 ## O que você edita no dia a dia
 
-### Produtos — `content/produtos.json`
+### Produtos — vêm do catálogo (nada para editar aqui)
 
-**Todos os produtos ficam neste único arquivo.** Cada produto tem:
+**Preço, promoção, estoque e foto NÃO ficam neste repositório.** O site lê,
+no navegador, o arquivo `https://farmaciabemestarsobral.com/catalogo/produtos.json`,
+que o robô do repositório
+[catalogo-bem-estar](https://github.com/FranzeBrandao/catalogo-bem-estar)
+atualiza a partir das planilhas do Infarma (preço e estoque em
+`entrada/<CATEGORIA>/`, promoção em `entrada/PROMOCAO/`, fotos em
+`entrada/fotos/`). Atualizou lá, mudou aqui, sem publicar o site de novo.
 
-| Campo | Exemplo | Observação |
-|---|---|---|
-| `ean` | `"7891234567890"` | Código de barras |
-| `nome` | `"Dipirona Monoidratada 500mg"` | |
-| `marca` | `"Vitalar"` | |
-| `categoria` | `"medicamentos"` | Uma das 8 categorias (veja abaixo) |
-| `subcategoria` | `"Dor e febre"` | Texto livre — vira o filtro da categoria |
-| `apresentacao` | `"Caixa com 10 comprimidos"` | |
-| `preco` | `7.9` | Use ponto, não vírgula |
-| `preco_promocional` | `5.9` ou `null` | `null` = sem promoção |
-| `estoque` | `40` | `0` = aparece "Indisponível" com "Avise-me pelo WhatsApp" |
-| `imagem` | `"/produtos/dipirona.webp"` ou `""` | Foto dentro de `public/`. Vazio = imagem provisória da categoria |
-| `destaque` | `true` | `true` = entra em "Ofertas da semana" na página inicial |
-
-Fotos de produto: salve em `public/produtos/` (de preferência `.webp`,
-quadrada, uns 800×800px) e coloque o caminho no campo `imagem`.
-
-> ⚠️ Os 32 produtos atuais são **fictícios**, só para demonstração
-> (marcas inventadas e EANs de uso interno começando com `200`). Troque
-> pelos produtos reais antes de divulgar a loja.
->
-> Na categoria **Medicamentos**, cadastre só medicamentos isentos de
-> prescrição (MIP) e não use "leve X pague Y" (RDC 96/2008 da ANVISA). O
-> aviso "SE PERSISTIREM OS SINTOMAS, O MÉDICO DEVERÁ SER CONSULTADO."
-> aparece sozinho.
+- Produto **sem estoque não aparece** no site (só por link direto, como "indisponível").
+- Se o arquivo não carregar, o site mostra uma mensagem amigável com botão do WhatsApp.
+- Cada produto do catálogo é ligado a um departamento do site por
+  `config/departamentos.json` **do repositório do catálogo**
+  (`FRALDAS` → `fraldas` etc.). Os departamentos do site são os de
+  `content/categorias.ts`; produto de categoria sem departamento aqui
+  só aparece na busca e nas ofertas.
+- **Disponibilidade** (mostrar a quantidade, só "Últimas unidades" ou
+  nada): `content/disponibilidade.ts`, uma linha.
+- **Medicamentos:** todo produto do departamento `medicamentos` fica
+  *restrito* (sem promoção, fora das ofertas e com "Consultar pelo
+  WhatsApp" no lugar de "Pedir") até a responsável técnica liberar o
+  código de barras em `content/regras-farmacia.ts`. Liberar só
+  medicamentos isentos de prescrição. Não usar "leve X pague Y" (RDC
+  96/2008 da ANVISA). O aviso "SE PERSISTIREM OS SINTOMAS, O MÉDICO
+  DEVERÁ SER CONSULTADO." aparece sozinho.
+- ⚠️ A pasta `catalogo/` do servidor pertence ao outro repositório. O
+  build deste site **não** gera nada em `catalogo/` e o `produtos.json`
+  nunca deve ser copiado para `public/`.
 
 ### Categorias — `content/categorias.ts`
 
@@ -83,48 +84,44 @@ O espaço está reservado e comentado em `app/layout.tsx`, dentro do
 
 ## Como publicar (GitHub → Hostinger)
 
-O fluxo é: **alterar aqui → enviar para a branch `main` no GitHub → a
-Hostinger atualiza pelo Git**. Não precisa gerar nada no computador.
+O fluxo é: **alterar aqui → enviar para a branch `main` no GitHub → o robô
+envia o site por FTPS para a `public_html`**. Não precisa gerar nada no
+computador.
 
 ```
-main  ──(robô do GitHub gera o site)──►  hostinger  ──(hPanel → Git)──►  public_html
+main  ──(robô do GitHub gera o site e envia por FTPS)──►  public_html
+                                                          └─ catalogo/  (outro robô; nunca é tocado)
 ```
 
 - O robô é o arquivo `.github/workflows/publicar-hostinger.yml`. A cada
   alteração na `main`, ele confere o código, gera o site, coloca a
-  `/compreaqui/` junto e salva tudo pronto na branch **`hostinger`**.
+  `/compreaqui/` junto e envia **só o que mudou**.
+- Antes de enviar, ele confere que a conta FTP está na `public_html`
+  (precisa achar a pasta `catalogo` lá). Se não estiver, para sem enviar nada.
+- Ele **nunca** envia nem apaga nada dentro de `catalogo/` e nunca apaga
+  arquivos que ele mesmo não enviou.
 - O andamento aparece na aba **Actions** do GitHub (verde = deu certo).
-- A Hostinger lê **só** a branch `hostinger`.
 
-### Configurar na Hostinger (uma vez só)
+> ⚠️ **Não use a conexão Git da Hostinger** (hPanel → Git → Implantar /
+> Reimplantar). Ela apaga tudo o que não está no repositório, inclusive
+> a pasta `public_html/catalogo` do catálogo (testado em 08/10/2026).
 
-1. **Faça backup** do que está hoje no site: hPanel → Arquivos →
-   Gerenciador de Arquivos → `public_html` → selecione tudo → Compactar →
-   baixe o `.zip`.
-2. Depois do backup, **esvazie a pasta `public_html`**. A Hostinger só
-   instala o Git numa pasta vazia. A `/compreaqui/` volta sozinha, porque
-   ela vem dentro da branch `hostinger`.
-3. hPanel → **Avançado → Git**:
-   - Repositório: `https://github.com/FranzeBrandao/Projeto-Franz-.git`
-     (ou escolha o repositório pela conta do GitHub conectada)
-   - Branch: **`hostinger`**
-   - Diretório: deixe em branco (= `public_html`)
-   - Clique em **Criar** e depois em **Implantar**.
-4. (Opcional, recomendado) **Implantação automática**: na mesma tela,
-   clique em *Implantação automática*, copie o endereço do webhook e cole
-   no GitHub em Settings → Webhooks → Add webhook (Payload URL = endereço
-   copiado, evento *Just the push event*). Assim a Hostinger atualiza
-   sozinha sempre que o robô salvar a branch `hostinger`. Sem isso, é só
-   clicar em **Implantar** no hPanel depois de cada atualização.
-5. Confira: abra o site, `/compreaqui/`, `/sitemap.xml`, uma categoria e
-   um produto. Ative o SSL grátis (hPanel → Segurança → SSL) se ainda
-   não estiver ativo — o `.htaccess` força HTTPS.
+### Configurar (uma vez só)
+
+1. hPanel → **Arquivos → Contas FTP**: crie uma conta FTP só para o site,
+   com a pasta **`public_html`** (deixe o campo de pasta em branco). Não
+   use a conta do catálogo, que fica presa em `public_html/catalogo`.
+2. GitHub → este repositório → **Settings → Secrets and variables →
+   Actions** → crie `FTP_SERVIDOR`, `FTP_USUARIO` e `FTP_SENHA` com os
+   dados dessa conta.
+3. hPanel → **Git**: desconecte o repositório (os arquivos que já estão
+   no site continuam lá).
 
 ### No dia a dia
 
-1. Altere o que precisar (ex.: `content/produtos.json`) na `main`.
-2. Espere o robô ficar verde na aba **Actions** (uns 2 minutos).
-3. Com a implantação automática, pronto. Sem ela: hPanel → Git → Implantar.
+1. Altere o que precisar (layout, textos) na `main`. Preço, estoque,
+   promoção e foto não passam por aqui (vêm do catálogo).
+2. Espere o robô ficar verde na aba **Actions** (uns 2 a 3 minutos).
 
 ## Rodando no computador (opcional)
 

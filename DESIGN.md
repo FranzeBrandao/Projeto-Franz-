@@ -382,10 +382,10 @@ presta atenção percebe.
 
 ## Anexo — estrutura técnica prevista
 
-- `content/produtos.json` — **único** arquivo com todos os produtos
-  (`ean, nome, marca, categoria, subcategoria, apresentacao, preco, preco_promocional, estoque, imagem, destaque`).
+- `/catalogo/produtos.json` (do repositório catalogo-bem-estar) — fonte única dos produtos, lida no navegador por `components/dados/ProdutosProvider.tsx`
+  (`ean, nome, marca, categoria, categoria_site, preco, preco_promocional, em_promocao, desconto_percentual, estoque, imagem, atualizado_em`).
 - `content/pedidos.ts` — `WHATSAPP_PEDIDOS = "5588997269402"` e o modelo da mensagem.
-- Rotas estáticas: `/`, `/categoria/[slug]/`, `/produto/[slug]/`, `/compreaqui/`,
+- Rotas estáticas: `/`, `/categoria/[slug]/`, `/produto/?e=<código>`, `/compreaqui/`,
   `/politica-privacidade/`, `/termos-de-uso/` — todas entram no `sitemap.xml`.
 - Espaço marcado no `<head>` para o widget da Digisac.
 - Continua `output: "export"` (site estático na Hostinger).

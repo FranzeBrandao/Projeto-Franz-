@@ -7,6 +7,7 @@ import { asset } from "@/lib/asset";
 import { WhatsappFloat } from "@/components/whatsapp-float/WhatsappFloat";
 import { DadosEstruturados } from "@/components/dados-estruturados/DadosEstruturados";
 import { Efeitos } from "@/components/efeitos/Efeitos";
+import { ProdutosProvider } from "@/components/dados/ProdutosProvider";
 
 // Fontes do DESIGN.md §3 — baixadas no build e servidas pelo próprio site
 // (não dependem do Google na hora de abrir a página).
@@ -97,7 +98,7 @@ export default function RootLayout({
       </head>
       <body>
         <DadosEstruturados />
-        {children}
+        <ProdutosProvider>{children}</ProdutosProvider>
         <WhatsappFloat />
         <Efeitos />
       </body>

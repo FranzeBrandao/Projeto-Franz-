@@ -1,11 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import { asset } from "@/lib/asset";
 import type { Produto } from "@/lib/produtos";
 import { IconeCategoria } from "./IconeCategoria";
 
 /**
- * Foto do produto. Sem foto cadastrada (campo "imagem" vazio no JSON),
- * mostra a imagem provisória: a cruz da logo ao fundo e o ícone da
- * categoria — nunca imagem quebrada nem foto de banco fingindo ser o produto.
+ * Foto do produto. Sem foto (campo "imagem" vazio) ou se a foto falhar ao
+ * carregar, mostra a imagem provisória: a cruz da logo ao fundo e o ícone
+ * da categoria — nunca imagem quebrada nem foto de banco fingindo ser o produto.
  */
 export function ImagemProduto({
   produto,
@@ -16,17 +19,20 @@ export function ImagemProduto({
   className?: string;
   prioridade?: boolean;
 }) {
-  if (produto.imagem) {
+  const [falhou, setFalhou] = useState(false);
+
+  if (produto.imagem && !falhou) {
     return (
       // <img> comum: o site é exportado como estático (images.unoptimized).
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={asset(produto.imagem)}
-        alt={`${produto.nome} - ${produto.apresentacao}`}
+        alt={produto.nome}
         width={400}
         height={400}
         loading={prioridade ? "eager" : "lazy"}
         decoding="async"
+        onError={() => setFalhou(true)}
         className={`h-full w-full object-contain ${className}`}
       />
     );

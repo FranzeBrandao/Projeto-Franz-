@@ -1,6 +1,7 @@
 import { BellRing, MessageCircle } from "lucide-react";
-import { linkAviseMeWhatsapp, linkPedidoWhatsapp } from "@/content/pedidos";
-import { disponivel, percentualDesconto, precoFinal, slugProduto, type Produto } from "@/lib/produtos";
+import { textoDisponibilidade } from "@/content/disponibilidade";
+import { linkAviseMeWhatsapp, linkConsultaWhatsapp, linkPedidoWhatsapp } from "@/content/pedidos";
+import { disponivel, hrefProduto, percentualDesconto, type Produto } from "@/lib/produtos";
 import { ImagemProduto } from "./ImagemProduto";
 import { Preco } from "./Preco";
 
@@ -15,7 +16,8 @@ import { Preco } from "./Preco";
 export function CardProduto({ produto, prioridade = false }: { produto: Produto; prioridade?: boolean }) {
   const temEstoque = disponivel(produto);
   const desconto = percentualDesconto(produto);
-  const href = `/produto/${slugProduto(produto)}/`;
+  const href = hrefProduto(produto);
+  const textoEstoque = textoDisponibilidade(produto.estoque);
 
   return (
     <article
@@ -51,21 +53,34 @@ export function CardProduto({ produto, prioridade = false }: { produto: Produto;
           {produto.nome}
         </a>
       </h3>
-      <p className="mt-1 text-[13px] text-texto-suave">{produto.apresentacao}</p>
+      {produto.apresentacao && <p className="mt-1 text-[13px] text-texto-suave">{produto.apresentacao}</p>}
 
       <div className="mt-3">
         <Preco produto={produto} />
       </div>
+      {textoEstoque && <p className="mt-2 text-[12px] leading-tight text-texto-suave">{textoEstoque}</p>}
 
       {/* Ação — fica acima do link do card (relative z-[2]) */}
       <div className="card-acao relative z-[2] mt-auto pt-3">
-        {temEstoque ? (
+        {produto.restrito ? (
+          <a
+            href={linkConsultaWhatsapp(produto)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-contorno w-full px-2.5 text-[13px] leading-tight tracking-[.02em]"
+          >
+            <MessageCircle className="h-[18px] w-[18px]" aria-hidden="true" />
+            Consultar pelo WhatsApp
+            <span className="sr-only">: {produto.nome}</span>
+          </a>
+        ) : temEstoque ? (
           <a
             href={linkPedidoWhatsapp({
               nome: produto.nome,
-              apresentacao: produto.apresentacao,
-              preco: precoFinal(produto),
-              quantidade: 1,
+              marca: produto.marca,
+              ean: produto.ean,
+              preco: produto.preco,
+              precoPromocional: produto.preco_promocional,
             })}
             target="_blank"
             rel="noopener noreferrer"
@@ -73,13 +88,13 @@ export function CardProduto({ produto, prioridade = false }: { produto: Produto;
             className="btn btn-whatsapp w-full px-2.5 text-[13px] leading-tight tracking-[.02em]"
           >
             <MessageCircle className="icone-toque h-[18px] w-[18px]" aria-hidden="true" />
-            <span className="rotulo-normal">Comprar pelo WhatsApp</span>
+            <span className="rotulo-normal">Pedir pelo WhatsApp</span>
             <span className="rotulo-enviado">Abrindo WhatsApp…</span>
             <span className="sr-only">: {produto.nome}</span>
           </a>
         ) : (
           <a
-            href={linkAviseMeWhatsapp({ nome: produto.nome, apresentacao: produto.apresentacao })}
+            href={linkAviseMeWhatsapp(produto)}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-contorno w-full px-2.5 text-[13px] leading-tight tracking-[.02em]"

@@ -11,6 +11,15 @@ export interface Categoria {
   descricao: string;
 }
 
+/*
+ * SORVETES (previsto, ainda desligado): o catálogo já mapeia SORVETES para
+ * o departamento "sorvetes" (config/departamentos.json do repositório
+ * catalogo-bem-estar). Quando a planilha de sorvetes chegar, para ligar
+ * basta acrescentar na lista abaixo:
+ *   { slug: "sorvetes", nome: "Sorvetes", descricao: "..." }
+ * e um ícone em components/produto/IconeCategoria.tsx. Até lá, esses
+ * produtos aparecem só na busca e nas ofertas.
+ */
 export const categorias: Categoria[] = [
   {
     slug: "medicamentos",

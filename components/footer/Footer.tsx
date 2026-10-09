@@ -97,12 +97,22 @@ export function Footer() {
           </h3>
           <ul className="mt-4 space-y-2 text-sm text-white/70">
             <li>
-              <a href="/politica-privacidade" className="underline-offset-4 hover:text-white hover:underline">
+              <a href="/como-pedir-e-entregar/" className="underline-offset-4 hover:text-white hover:underline">
+                Como pedir e entregar
+              </a>
+            </li>
+            <li>
+              <a href="/trocas-e-devolucoes/" className="underline-offset-4 hover:text-white hover:underline">
+                Trocas e devoluções
+              </a>
+            </li>
+            <li>
+              <a href="/politica-privacidade/" className="underline-offset-4 hover:text-white hover:underline">
                 Política de Privacidade
               </a>
             </li>
             <li>
-              <a href="/termos-de-uso" className="underline-offset-4 hover:text-white hover:underline">
+              <a href="/termos-de-uso/" className="underline-offset-4 hover:text-white hover:underline">
                 Termos de Uso
               </a>
             </li>
@@ -130,7 +140,8 @@ export function Footer() {
         <p className="container-page text-center text-xs leading-relaxed text-white/70">
           © {new Date().getFullYear()} {empresa.razaoSocial}. Todos os direitos
           reservados. CNPJ {empresa.cnpj}. Farmacêutica responsável:{" "}
-          {empresa.farmaceuticaResponsavel.nome} ({empresa.farmaceuticaResponsavel.crf}).
+          {empresa.farmaceuticaResponsavel.nome} ({empresa.farmaceuticaResponsavel.crf}). Licença sanitária:{" "}
+          {empresa.licencaSanitaria}.
         </p>
       </div>
     </footer>
