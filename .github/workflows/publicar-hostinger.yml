@@ -4,11 +4,19 @@
 #   1. confere o código (lint) e gera o site estático (pasta out/);
 #   2. coloca junto a página /compreaqui/ (link na bio), copiada sem
 #      mudanças do repositório público FranzeBrandao/Link-na-bio;
-#   3. salva o resultado na branch "hostinger".
+#   3. confere que está entrando na pasta certa da Hostinger (public_html);
+#   4. envia o site por FTPS direto para public_html, só o que mudou.
 #
-# A Hostinger (hPanel → Git) fica apontada para a branch "hostinger" e
-# publica o conteúdo dela em public_html. Ninguém precisa rodar comandos
-# no computador.
+# Por que FTPS e não a conexão Git da Hostinger: a implantação pelo Git
+# APAGA tudo o que não está no repositório, inclusive a pasta
+# public_html/catalogo, que é publicada por outro robô (repositório
+# catalogo-bem-estar). Testado em 08/10/2026. Este robô nunca envia nem
+# apaga nada dentro de catalogo/ e nunca apaga arquivos que ele mesmo
+# não enviou.
+#
+# Precisa dos segredos FTP_SERVIDOR, FTP_USUARIO e FTP_SENHA de uma conta
+# FTP cuja pasta seja public_html (NÃO a conta do catálogo). Sem eles, o
+# site é gerado mas não é enviado.
 #
 # Também dá para rodar na mão: aba Actions → "Publicar na Hostinger" →
 # Run workflow.
@@ -21,7 +29,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 # Se duas publicações começarem juntas, só a mais nova segue.
 concurrency:
@@ -31,6 +39,8 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
+    env:
+      FTP_SERVIDOR: ${{ secrets.FTP_SERVIDOR }}
     steps:
       - name: Baixar o código do site
         uses: actions/checkout@v4
@@ -67,16 +77,44 @@ jobs:
           rm -f out/compreaqui/images/logo-farmacia-bem-estar.png
           test -f out/compreaqui/index.html
           test -f out/.htaccess
+          # O site nunca pode levar uma pasta catalogo/ (ela é do outro robô)
+          test ! -e out/catalogo
 
-      - name: Salvar o site pronto na branch "hostinger"
-        uses: peaceiris/actions-gh-pages@v4
+      # Trava de segurança: a pasta de entrada da conta FTP tem que ser a
+      # public_html, onde existe a pasta "catalogo". Se for outra pasta
+      # (por exemplo, a conta do catálogo por engano), o robô para antes de
+      # enviar qualquer arquivo.
+      - name: Conferir a pasta de destino na Hostinger
+        if: env.FTP_SERVIDOR != ''
+        env:
+          FTP_USUARIO: ${{ secrets.FTP_USUARIO }}
+          FTP_SENHA: ${{ secrets.FTP_SENHA }}
+        run: |
+          # -k: mesmo modo "loose" do envio abaixo (certificado da Hostinger
+          # pode não bater com o nome do servidor)
+          lista=$(curl -sS -k --ssl-reqd --list-only --user "$FTP_USUARIO:$FTP_SENHA" "ftp://$FTP_SERVIDOR/")
+          echo "Pastas e arquivos na entrada da conta FTP:"
+          echo "$lista"
+          if ! printf '%s\n' "$lista" | tr -d '\r' | grep -qx "catalogo"; then
+            echo "::error::A conta FTP não está apontando para public_html (não achei a pasta catalogo). Nada foi enviado. Confira a pasta da conta FTP do site no hPanel; se a pasta catalogo sumiu, rode antes o robô do catálogo."
+            exit 1
+          fi
+
+      - name: Enviar o site para a Hostinger (FTPS)
+        if: env.FTP_SERVIDOR != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: hostinger
-          publish_dir: ./out
-          # Mantém o histórico (a Hostinger atualiza com "git pull")
-          force_orphan: false
-          enable_jekyll: true
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
-          full_commit_message: "Site gerado a partir de ${{ github.sha }}"
+          server: ${{ secrets.FTP_SERVIDOR }}
+          username: ${{ secrets.FTP_USUARIO }}
+          password: ${{ secrets.FTP_SENHA }}
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: ./
+          # Nunca apagar tudo antes de enviar
+          dangerous-clean-slate: false
+          # catalogo/ é do outro robô: nunca enviar nem apagar nada lá
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            catalogo/**
