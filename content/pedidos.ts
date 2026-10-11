@@ -29,6 +29,9 @@ export interface ItemPedido {
   preco: number;
   /** Só quando há promoção válida (menor que o preço normal). */
   precoPromocional?: number | null;
+  /** Promoção Leve X Pague Y, quando houver. */
+  leve?: number | null;
+  pague?: number | null;
 }
 
 /** "R$ 10,99" ou, em promoção, "de R$ 10,99 por R$ 8,99". */
@@ -43,14 +46,19 @@ function textoPreco(item: ItemPedido): string {
 /**
  * Mensagem pronta do produto:
  * "Olá! Quero pedir: Fralda X (Marca) - R$ 10,99. Código: 789..."
- * (em promoção: "- de R$ 10,99 por R$ 8,99."). Com mais de 1 unidade,
- * acrescenta " Quantidade: N.".
+ * (em promoção: "- de R$ 10,99 por R$ 8,99."; no Leve/Pague: "- R$ 8,00
+ * (promoção Leve 3 Pague 2)."). Com mais de 1 unidade, acrescenta
+ * " Quantidade: N." e, se informado, " Total: R$ X.".
  */
-export function linkPedidoWhatsapp(item: ItemPedido & { quantidade?: number }): string {
+export function linkPedidoWhatsapp(item: ItemPedido & { quantidade?: number; total?: number }): string {
   const marca = item.marca ? ` (${item.marca})` : "";
-  const quantidade = item.quantidade && item.quantidade > 1 ? ` Quantidade: ${item.quantidade}.` : "";
+  const levePague =
+    item.leve && item.pague && item.leve > item.pague ? ` (promoção Leve ${item.leve} Pague ${item.pague})` : "";
+  const varias = item.quantidade && item.quantidade > 1;
+  const quantidade = varias ? ` Quantidade: ${item.quantidade}.` : "";
+  const total = varias && item.total != null ? ` Total: R$ ${emReais(item.total)}.` : "";
   return linkWhatsapp(
-    `Olá! Quero pedir: ${item.nome}${marca} - ${textoPreco(item)}. Código: ${item.ean}.${quantidade}`,
+    `Olá! Quero pedir: ${item.nome}${marca} - ${textoPreco(item)}${levePague}. Código: ${item.ean}.${quantidade}${total}`,
   );
 }
 

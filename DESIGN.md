@@ -141,7 +141,7 @@ Microinteração: no botão de WhatsApp o ícone dá um "toque" (rotação de 12
 
 ```
 ┌──────────────────────────┐
-│ [-15%]            [♡]    │  ← selo vermelho só quando tem preço promocional
+│ [-15% OFF]        [♡]    │  ← selo vermelho só em promoção ("-15% OFF" ou "Leve 3 Pague 2")
 │                          │
 │        [ imagem ]        │  ← proporção 1:1, fundo branco, zoom 1.06 no hover
 │                          │
@@ -149,9 +149,10 @@ Microinteração: no botão de WhatsApp o ícone dá um "toque" (rotação de 12
 │ Nome do produto em até   │  ← Figtree 500, 2 linhas, reticências
 │ duas linhas…             │
 │ Caixa com 20 comprimidos │  ← apresentação, 13px
-│ ┌────────────┐           │
-│ │ R$ 19,90   │ de 24,90  │  ← etiqueta de gôndola (tarja) + preço antigo riscado
-│ └────────────┘           │
+│ De R$ 24,90              │  ← em promoção: preço antigo AZUL riscado
+│    ┌────────────┐        │
+│ Por│ R$ 19,90   │        │  ← "Por" + etiqueta de gôndola (tarja) VERMELHA
+│    └────────────┘        │
 │ [ COMPRAR PELO WHATSAPP ]│  ← no computador surge de baixo no hover; no celular sempre visível
 └──────────────────────────┘
 ═════════ régua vermelha da prateleira (4px) ═════════
@@ -166,6 +167,15 @@ Microinteração: no botão de WhatsApp o ícone dá um "toque" (rotação de 12
 | **Indisponível** (estoque 0) | Imagem em tons de cinza 60%, selo "INDISPONÍVEL" cinza no lugar do desconto, preço em `--indisponivel`, **sem botão de compra** — no lugar, texto "Avise-me pelo WhatsApp" opcional (a decidir) |
 
 **Etiqueta de preço (tarja):** fundo branco, borda 2px `--azul` (normal) ou `--vermelho` (promoção), raio 6px, canto inferior direito com um pequeno "dente" cortado (como etiqueta de gôndola). Preço em Zilla Slab 700.
+
+**Promoções** (vêm das planilhas do Infarma, `components/produto/Preco.tsx`):
+
+| Tipo | Visual |
+|---|---|
+| De / Por (e porcentagem) | Selo "-35% OFF"; "De R$ 99,99" azul riscado; "Por" + tarja vermelha R$ 64,99 |
+| Leve / Pague | Selo "Leve 3 Pague 2"; "Levando 3, pague" vermelho; tarja vermelha com o preço de cada um + "cada"; "R$ 39,99 1 unid." cinza. Na página do produto, o total já desconta e avisa "Promoção Leve 3 Pague 2 aplicada" |
+
+A promoção sai sozinha depois do último dia (`promocao_ate`).
 
 **Imagem provisória** (produto sem foto): fundo `--gelo` com a cruz da logo em azul a 12% de opacidade, ícone da categoria ao centro e a legenda "Foto em breve" em Barlow Condensed. Nunca imagem quebrada nem foto de banco fingindo ser o produto.
 
@@ -345,7 +355,7 @@ presta atenção percebe.
 
 **Faça**
 1. Use fotos reais da loja e da equipe em todo lugar que pedir "gente" — é o diferencial contra as grandes redes.
-2. Mostre o preço sempre na etiqueta de gôndola; preço promocional em vermelho com o antigo riscado ao lado.
+2. Mostre o preço sempre na etiqueta de gôndola; preço promocional em vermelho ("Por") com o antigo azul e riscado em cima ("De").
 3. Deixe o botão de compra visível sem hover no celular.
 4. Escreva botões com o que acontece: "Comprar pelo WhatsApp", "Ver todos de Fraldas".
 5. Mostre o aviso de medicamentos em toda tela com medicamento.
@@ -383,7 +393,7 @@ presta atenção percebe.
 ## Anexo — estrutura técnica prevista
 
 - `/catalogo/produtos.json` (do repositório catalogo-bem-estar) — fonte única dos produtos, lida no navegador por `components/dados/ProdutosProvider.tsx`
-  (`ean, nome, marca, categoria, categoria_site, preco, preco_promocional, em_promocao, desconto_percentual, estoque, imagem, atualizado_em`).
+  (`ean, nome, marca, categoria, categoria_site, preco, preco_promocional, em_promocao, desconto_percentual, leve, pague, promocao_ate, estoque, imagem, atualizado_em`).
 - `content/pedidos.ts` — `WHATSAPP_PEDIDOS = "5588997269402"` e o modelo da mensagem.
 - Rotas estáticas: `/`, `/categoria/[slug]/`, `/produto/?e=<código>`, `/compreaqui/`,
   `/politica-privacidade/`, `/termos-de-uso/` — todas entram no `sitemap.xml`.

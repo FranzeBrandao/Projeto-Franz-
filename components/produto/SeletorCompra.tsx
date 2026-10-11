@@ -3,18 +3,21 @@
 import { useState } from "react";
 import { Minus, MessageCircle, Plus } from "lucide-react";
 import { linkPedidoWhatsapp, WHATSAPP_PEDIDOS_EXIBICAO } from "@/content/pedidos";
-import { emReais, precoFinal, type Produto } from "@/lib/produtos";
+import { emReais, levePague, totalDaQuantidade, type Produto } from "@/lib/produtos";
 
 /**
  * Quantidade (− 1 +) e botão "Pedir pelo WhatsApp" da página do produto.
  * A mensagem pronta já leva a quantidade escolhida.
  */
 export function SeletorCompra({ produto }: { produto: Produto }) {
-  const preco = precoFinal(produto);
+  const lp = levePague(produto);
   const estoque = produto.estoque;
   const maximo = Math.max(1, Math.min(estoque, 20));
   const [quantidade, setQuantidade] = useState(1);
   const mudar = (delta: number) => setQuantidade((q) => Math.min(maximo, Math.max(1, q + delta)));
+  const total = totalDaQuantidade(produto, quantidade);
+  // Leve/Pague: quantas faltam para completar o próximo grupo
+  const falta = lp ? lp.leve - (quantidade % lp.leve) : 0;
 
   return (
     <div>
@@ -44,10 +47,17 @@ export function SeletorCompra({ produto }: { produto: Produto }) {
         </div>
         {quantidade > 1 && (
           <p className="text-[15px] text-texto-suave">
-            Total: <strong className="font-semibold text-texto">R$ {emReais(preco * quantidade)}</strong>
+            Total: <strong className="font-semibold text-texto">R$ {emReais(total)}</strong>
           </p>
         )}
       </div>
+      {lp && maximo >= lp.leve && (
+        <p className="mt-3 text-[14px] font-semibold text-vermelho">
+          {quantidade >= lp.leve && falta === lp.leve
+            ? `Promoção Leve ${lp.leve} Pague ${lp.pague} aplicada.`
+            : `Leve ${lp.leve} e pague ${lp.pague}: ${falta === 1 ? "falta 1 unidade" : `faltam ${falta} unidades`}.`}
+        </p>
+      )}
 
       <a
         href={linkPedidoWhatsapp({
@@ -56,7 +66,10 @@ export function SeletorCompra({ produto }: { produto: Produto }) {
           ean: produto.ean,
           preco: produto.preco,
           precoPromocional: produto.preco_promocional,
+          leve: produto.leve,
+          pague: produto.pague,
           quantidade,
+          total,
         })}
         target="_blank"
         rel="noopener noreferrer"

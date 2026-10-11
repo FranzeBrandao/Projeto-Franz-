@@ -5,9 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { SlidersHorizontal, X } from "lucide-react";
 import {
   disponivel,
-  percentualDesconto,
+  emPromocao,
+  percentualEconomia,
   precoFinal,
-  temPromocao,
   type Produto,
 } from "@/lib/produtos";
 import { GradeProdutos } from "./GradeProdutos";
@@ -66,7 +66,7 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
       (p) =>
         (!sub || p.subcategoria === sub) &&
         (marcasEscolhidas.length === 0 || marcasEscolhidas.includes(p.marca)) &&
-        (!soPromocao || temPromocao(p)) &&
+        (!soPromocao || emPromocao(p)) &&
         (Number.isNaN(minimo) || precoFinal(p) >= minimo) &&
         (Number.isNaN(maximo) || precoFinal(p) <= maximo),
     );
@@ -76,7 +76,7 @@ export function Catalogo({ produtos, subInicial = "" }: { produtos: Produto[]; s
         Number(disponivel(b)) - Number(disponivel(a)) || Number(b.destaque) - Number(a.destaque),
       "menor-preco": (a, b) => precoFinal(a) - precoFinal(b),
       "maior-preco": (a, b) => precoFinal(b) - precoFinal(a),
-      "maior-desconto": (a, b) => percentualDesconto(b) - percentualDesconto(a),
+      "maior-desconto": (a, b) => percentualEconomia(b) - percentualEconomia(a),
       "a-z": (a, b) => a.nome.localeCompare(b.nome, "pt-BR"),
     };
     return [...filtrados].sort(porOrdem[ordem]);

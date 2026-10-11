@@ -23,7 +23,7 @@ import { whatsappHref } from "@/lib/contato";
 import {
   disponivel,
   hrefProduto,
-  percentualDesconto,
+  textoFaixaPromocao,
   precoFinal,
   produtosDaCategoria,
 } from "@/lib/produtos";
@@ -74,7 +74,7 @@ export function PaginaProduto() {
 
   const categoria = buscarCategoria(p.categoria);
   const temEstoque = disponivel(p);
-  const desconto = percentualDesconto(p);
+  const faixa = textoFaixaPromocao(p);
   const ehMedicamento = p.categoria === "medicamentos";
   const textoEstoque = textoDisponibilidade(p.estoque);
   const parecidos = produtosDaCategoria(visiveis, p.categoria).filter((x) => x.ean !== p.ean);
@@ -129,9 +129,9 @@ export function PaginaProduto() {
               <span className="rotulo absolute left-4 top-4 rounded-md bg-linha px-3 py-1.5 text-[13px] text-texto-suave">
                 Indisponível
               </span>
-            ) : desconto > 0 ? (
-              <span className="rotulo absolute left-4 top-4 rounded-md bg-vermelho px-3 py-1.5 text-[14px] font-bold text-white">
-                -{desconto}%
+            ) : faixa ? (
+              <span className="rotulo absolute left-4 top-4 rounded-full bg-vermelho px-3.5 py-1.5 text-[14px] font-bold text-white shadow-2">
+                {faixa}
               </span>
             ) : null}
           </div>
