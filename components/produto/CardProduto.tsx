@@ -1,7 +1,7 @@
 import { BellRing, MessageCircle } from "lucide-react";
 import { textoDisponibilidade } from "@/content/disponibilidade";
 import { linkAviseMeWhatsapp, linkConsultaWhatsapp, linkPedidoWhatsapp } from "@/content/pedidos";
-import { disponivel, hrefProduto, percentualDesconto, type Produto } from "@/lib/produtos";
+import { disponivel, hrefProduto, textoFaixaPromocao, type Produto } from "@/lib/produtos";
 import { ImagemProduto } from "./ImagemProduto";
 import { Preco } from "./Preco";
 
@@ -15,7 +15,7 @@ import { Preco } from "./Preco";
  */
 export function CardProduto({ produto, prioridade = false }: { produto: Produto; prioridade?: boolean }) {
   const temEstoque = disponivel(produto);
-  const desconto = percentualDesconto(produto);
+  const faixa = textoFaixaPromocao(produto);
   const href = hrefProduto(produto);
   const textoEstoque = textoDisponibilidade(produto.estoque);
 
@@ -25,14 +25,14 @@ export function CardProduto({ produto, prioridade = false }: { produto: Produto;
         temEstoque ? "hover:-translate-y-1 hover:shadow-3" : ""
       } active:scale-[.98]`}
     >
-      {/* Selo: desconto ou indisponível */}
+      {/* Selo: promoção ("-35% OFF", "Leve 3 Pague 2") ou indisponível */}
       {!temEstoque ? (
         <span className="rotulo absolute left-3 top-3 z-[1] rounded-md bg-linha px-2 py-1 text-[11px] text-texto-suave">
           Indisponível
         </span>
-      ) : desconto > 0 ? (
-        <span className="rotulo absolute left-3 top-3 z-[1] rounded-md bg-vermelho px-2 py-1 text-[12px] text-white">
-          -{desconto}%
+      ) : faixa ? (
+        <span className="rotulo absolute left-3 top-3 z-[1] rounded-full bg-vermelho px-2.5 py-1 text-[12px] text-white shadow-2">
+          {faixa}
         </span>
       ) : null}
 
@@ -81,6 +81,8 @@ export function CardProduto({ produto, prioridade = false }: { produto: Produto;
               ean: produto.ean,
               preco: produto.preco,
               precoPromocional: produto.preco_promocional,
+              leve: produto.leve,
+              pague: produto.pague,
             })}
             target="_blank"
             rel="noopener noreferrer"

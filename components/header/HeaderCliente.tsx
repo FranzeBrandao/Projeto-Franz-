@@ -18,7 +18,7 @@ import { empresa } from "@/content/empresa";
 import { ENTREGA_GRATIS } from "@/content/loja";
 import { linkPedidoGeral, WHATSAPP_PEDIDOS_EXIBICAO } from "@/content/pedidos";
 import { useProdutos } from "@/components/dados/ProdutosProvider";
-import { emReais, hrefProduto, percentualDesconto, precoFinal, produtosDaCategoria } from "@/lib/produtos";
+import { emReais, hrefProduto, percentualEconomia, precoFinal, produtosDaCategoria } from "@/lib/produtos";
 import { asset } from "@/lib/asset";
 import { whatsappHref } from "@/lib/contato";
 import { IconeCategoria } from "@/components/produto/IconeCategoria";
@@ -116,7 +116,7 @@ export function HeaderCliente({ menu }: { menu: CategoriaMenu[] }) {
   const { visiveis } = useProdutos();
   const destaquesAbertos = categoriaAberta
     ? [...produtosDaCategoria(visiveis, categoriaAberta.slug)]
-        .sort((a, b) => percentualDesconto(b) - percentualDesconto(a))
+        .sort((a, b) => percentualEconomia(b) - percentualEconomia(a))
         .slice(0, 2)
         .map((p) => ({ nome: p.nome, marca: p.marca, preco: emReais(precoFinal(p)), href: hrefProduto(p) }))
     : [];

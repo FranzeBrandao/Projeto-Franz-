@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { adaptarProduto, visiveis, type Produto, type ProdutoCatalogo } from "@/lib/produtos";
+import { adaptarProduto, hojeLocal, visiveis, type Produto, type ProdutoCatalogo } from "@/lib/produtos";
 
 /**
  * Endereço do arquivo de produtos. O catálogo publica em /catalogo/produtos.json
@@ -33,7 +33,10 @@ export function ProdutosProvider({ children }: { children: ReactNode }) {
       })
       .then((dados: { produtos?: Partial<ProdutoCatalogo>[]; atualizado_em?: string }) => {
         if (!Array.isArray(dados.produtos)) throw new Error("formato inesperado");
-        const todos = dados.produtos.map(adaptarProduto).filter((p): p is Produto => p !== null);
+        const hoje = hojeLocal();
+        const todos = dados.produtos
+          .map((item) => adaptarProduto(item, hoje))
+          .filter((p): p is Produto => p !== null);
         if (!cancelado) setEstado({ status: "ok", todos, atualizadoEm: dados.atualizado_em ?? "" });
       })
       .catch(() => {
