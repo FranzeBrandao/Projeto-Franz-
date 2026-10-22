@@ -50,6 +50,10 @@ export function Footer() {
                 {empresa.whatsapp.exibicao}
               </a>
             </li>
+            <li>
+              WhatsApp Business API:{" "}
+              <span className="text-white">{empresa.whatsappApi.exibicao}</span>
+            </li>
             {empresa.email && (
               <li>
                 <a
