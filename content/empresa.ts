@@ -13,6 +13,8 @@ interface Empresa {
   cnpj: string;
   /** Número da licença sanitária (alvará). "[CONFIRMAR]" até o cliente informar. */
   licencaSanitaria: string;
+  /** Inscrição da farmácia (estabelecimento) no Conselho Regional de Farmácia. */
+  inscricaoCrf: string;
   farmaceuticaResponsavel: {
     nome: string;
     crf: string;
@@ -65,7 +67,11 @@ export const empresa: Empresa = {
   nome: "Farmácia Bem Estar",
   razaoSocial: "Farmácia Bem Estar LTDA",
   cnpj: "30.080.921/0001-72",
-  licencaSanitaria: "[CONFIRMAR]",
+  // Licença sanitária regular, informada pelo cliente.
+  licencaSanitaria: "LR0004/2026",
+  // Inscrição da farmácia no CRF-CE, informada pelo cliente. Não confundir
+  // com o CRF da farmacêutica responsável, logo abaixo.
+  inscricaoCrf: "CRF-CE 12599",
 
   farmaceuticaResponsavel: {
     nome: "Kamila Soares Balreira",

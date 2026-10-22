@@ -143,8 +143,9 @@ export function Footer() {
       <div className="border-t border-white/10 py-6">
         <p className="container-page text-center text-xs leading-relaxed text-white/70">
           © {new Date().getFullYear()} {empresa.razaoSocial}. Todos os direitos
-          reservados. CNPJ {empresa.cnpj}. Farmacêutica responsável:{" "}
-          {empresa.farmaceuticaResponsavel.nome} ({empresa.farmaceuticaResponsavel.crf}). Licença sanitária:{" "}
+          reservados. CNPJ {empresa.cnpj}. Inscrição {empresa.inscricaoCrf}.
+          Farmacêutica responsável:{" "}
+          {empresa.farmaceuticaResponsavel.nome} ({empresa.farmaceuticaResponsavel.crf}). Licença sanitária nº{" "}
           {empresa.licencaSanitaria}.
         </p>
       </div>
