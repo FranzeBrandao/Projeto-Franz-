@@ -32,6 +32,10 @@ interface Empresa {
     exibicao: string;
     e164: string;
   };
+  whatsappApi: {
+    exibicao: string;
+    e164: string;
+  };
   /**
    * `dias`/`horario` são o texto exibido no site. `diasSchema`, `abre` e
    * `fecha` alimentam os dados estruturados (Schema.org) que o Google lê —
@@ -77,8 +81,8 @@ export const empresa: Empresa = {
       "Av. Sen. Fernandes Távora, 1359 - Gerardo Cristino, Sobral - CE, 62050-382",
   },
 
-  // Número antigo — banido do WhatsApp. Continua em uso para ligações,
-  // SMS e tokens, mas não deve ser usado em links/botões de WhatsApp.
+  // Número principal: ligações, SMS e tokens. Não está mais banido do
+  // WhatsApp e é o primeiro botão do link da bio (/compreaqui/).
   telefone: {
     exibicao: "(88) 99981-3133",
     e164: "+5588999813133",
@@ -86,11 +90,18 @@ export const empresa: Empresa = {
 
   // WhatsApp da farmácia: é o mesmo número dos pedidos (WhatsApp Business,
   // sem custo por mensagem), definido em `content/pedidos.ts` →
-  // WHATSAPP_PEDIDOS. Trocando lá, muda no site inteiro. O número da API
-  // da Meta, (88) 99730-6141, saiu do site porque passou a cobrar por mensagem.
+  // WHATSAPP_PEDIDOS. Trocando lá, muda no site inteiro.
   whatsapp: {
     exibicao: WHATSAPP_PEDIDOS_EXIBICAO,
     e164: `+${WHATSAPP_PEDIDOS}`,
+  },
+
+  // Número da API do WhatsApp Business (Meta). A verificação da Meta exige
+  // que ele apareça no site, então fica no rodapé só como texto — sem link,
+  // porque cada conversa iniciada nele é cobrada.
+  whatsappApi: {
+    exibicao: "(88) 99730-6141",
+    e164: "+5588997306141",
   },
 
   horarioFuncionamento: [
